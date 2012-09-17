@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65777B4C1607AB6D0087A3CD /* Stage.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4B1607AB6D0087A3CD /* Stage.m */; };
+		65777B501607AB960087A3CD /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4F1607AB960087A3CD /* Layer.m */; };
 		65C00E1D160727EF00E293B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1C160727EF00E293B3 /* UIKit.framework */; };
 		65C00E1F160727EF00E293B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1E160727EF00E293B3 /* Foundation.framework */; };
 		65C00E21160727EF00E293B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E20160727EF00E293B3 /* CoreGraphics.framework */; };
@@ -26,6 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65777B4A1607AB6D0087A3CD /* Stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stage.h; sourceTree = "<group>"; };
+		65777B4B1607AB6D0087A3CD /* Stage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stage.m; sourceTree = "<group>"; };
+		65777B4E1607AB960087A3CD /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
+		65777B4F1607AB960087A3CD /* Layer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Layer.m; sourceTree = "<group>"; };
 		65C00E18160727EF00E293B3 /* PlatformGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C00E1C160727EF00E293B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		65C00E1E160727EF00E293B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -112,6 +118,10 @@
 				65C00E501607A3DB00E293B3 /* Game.m */,
 				65C00E521607A60800E293B3 /* Globals.h */,
 				65C00E531607A6A500E293B3 /* Globals.c */,
+				65777B4A1607AB6D0087A3CD /* Stage.h */,
+				65777B4B1607AB6D0087A3CD /* Stage.m */,
+				65777B4E1607AB960087A3CD /* Layer.h */,
+				65777B4F1607AB960087A3CD /* Layer.m */,
 			);
 			path = PlatformGame;
 			sourceTree = "<group>";
@@ -224,6 +234,8 @@
 				65C00E38160727EF00E293B3 /* ViewController.m in Sources */,
 				65C00E511607A3DB00E293B3 /* Game.m in Sources */,
 				65C00E541607A6A500E293B3 /* Globals.c in Sources */,
+				65777B4C1607AB6D0087A3CD /* Stage.m in Sources */,
+				65777B501607AB960087A3CD /* Layer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +361,7 @@
 				65C00E43160727EF00E293B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
