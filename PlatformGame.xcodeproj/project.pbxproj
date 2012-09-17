@@ -1,0 +1,316 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		65C00E1D160727EF00E293B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1C160727EF00E293B3 /* UIKit.framework */; };
+		65C00E1F160727EF00E293B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1E160727EF00E293B3 /* Foundation.framework */; };
+		65C00E21160727EF00E293B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E20160727EF00E293B3 /* CoreGraphics.framework */; };
+		65C00E23160727EF00E293B3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E22160727EF00E293B3 /* GLKit.framework */; };
+		65C00E25160727EF00E293B3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E24160727EF00E293B3 /* OpenGLES.framework */; };
+		65C00E2B160727EF00E293B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E29160727EF00E293B3 /* InfoPlist.strings */; };
+		65C00E2D160727EF00E293B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E2C160727EF00E293B3 /* main.m */; };
+		65C00E31160727EF00E293B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E30160727EF00E293B3 /* AppDelegate.m */; };
+		65C00E33160727EF00E293B3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E32160727EF00E293B3 /* Shader.fsh */; };
+		65C00E35160727EF00E293B3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E34160727EF00E293B3 /* Shader.vsh */; };
+		65C00E38160727EF00E293B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E37160727EF00E293B3 /* ViewController.m */; };
+		65C00E3B160727EF00E293B3 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */; };
+		65C00E3E160727EF00E293B3 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		65C00E18160727EF00E293B3 /* PlatformGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65C00E1C160727EF00E293B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		65C00E1E160727EF00E293B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		65C00E20160727EF00E293B3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		65C00E22160727EF00E293B3 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		65C00E24160727EF00E293B3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		65C00E28160727EF00E293B3 /* PlatformGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlatformGame-Info.plist"; sourceTree = "<group>"; };
+		65C00E2A160727EF00E293B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		65C00E2C160727EF00E293B3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		65C00E2E160727EF00E293B3 /* PlatformGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlatformGame-Prefix.pch"; sourceTree = "<group>"; };
+		65C00E2F160727EF00E293B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		65C00E30160727EF00E293B3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		65C00E32160727EF00E293B3 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		65C00E34160727EF00E293B3 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		65C00E36160727EF00E293B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		65C00E37160727EF00E293B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		65C00E3A160727EF00E293B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		65C00E3D160727EF00E293B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		65C00E15160727EF00E293B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65C00E1D160727EF00E293B3 /* UIKit.framework in Frameworks */,
+				65C00E1F160727EF00E293B3 /* Foundation.framework in Frameworks */,
+				65C00E21160727EF00E293B3 /* CoreGraphics.framework in Frameworks */,
+				65C00E23160727EF00E293B3 /* GLKit.framework in Frameworks */,
+				65C00E25160727EF00E293B3 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		65C00E0D160727EF00E293B3 = {
+			isa = PBXGroup;
+			children = (
+				65C00E26160727EF00E293B3 /* PlatformGame */,
+				65C00E1B160727EF00E293B3 /* Frameworks */,
+				65C00E19160727EF00E293B3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		65C00E19160727EF00E293B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E18160727EF00E293B3 /* PlatformGame.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		65C00E1B160727EF00E293B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E1C160727EF00E293B3 /* UIKit.framework */,
+				65C00E1E160727EF00E293B3 /* Foundation.framework */,
+				65C00E20160727EF00E293B3 /* CoreGraphics.framework */,
+				65C00E22160727EF00E293B3 /* GLKit.framework */,
+				65C00E24160727EF00E293B3 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		65C00E26160727EF00E293B3 /* PlatformGame */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E2F160727EF00E293B3 /* AppDelegate.h */,
+				65C00E30160727EF00E293B3 /* AppDelegate.m */,
+				65C00E32160727EF00E293B3 /* Shader.fsh */,
+				65C00E34160727EF00E293B3 /* Shader.vsh */,
+				65C00E36160727EF00E293B3 /* ViewController.h */,
+				65C00E37160727EF00E293B3 /* ViewController.m */,
+				65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */,
+				65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */,
+				65C00E27160727EF00E293B3 /* Supporting Files */,
+			);
+			path = PlatformGame;
+			sourceTree = "<group>";
+		};
+		65C00E27160727EF00E293B3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E28160727EF00E293B3 /* PlatformGame-Info.plist */,
+				65C00E29160727EF00E293B3 /* InfoPlist.strings */,
+				65C00E2C160727EF00E293B3 /* main.m */,
+				65C00E2E160727EF00E293B3 /* PlatformGame-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		65C00E17160727EF00E293B3 /* PlatformGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65C00E41160727EF00E293B3 /* Build configuration list for PBXNativeTarget "PlatformGame" */;
+			buildPhases = (
+				65C00E14160727EF00E293B3 /* Sources */,
+				65C00E15160727EF00E293B3 /* Frameworks */,
+				65C00E16160727EF00E293B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlatformGame;
+			productName = PlatformGame;
+			productReference = 65C00E18160727EF00E293B3 /* PlatformGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		65C00E0F160727EF00E293B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Daniel Andersen";
+			};
+			buildConfigurationList = 65C00E12160727EF00E293B3 /* Build configuration list for PBXProject "PlatformGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 65C00E0D160727EF00E293B3;
+			productRefGroup = 65C00E19160727EF00E293B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				65C00E17160727EF00E293B3 /* PlatformGame */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		65C00E16160727EF00E293B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65C00E2B160727EF00E293B3 /* InfoPlist.strings in Resources */,
+				65C00E33160727EF00E293B3 /* Shader.fsh in Resources */,
+				65C00E35160727EF00E293B3 /* Shader.vsh in Resources */,
+				65C00E3B160727EF00E293B3 /* ViewController_iPhone.xib in Resources */,
+				65C00E3E160727EF00E293B3 /* ViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		65C00E14160727EF00E293B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65C00E2D160727EF00E293B3 /* main.m in Sources */,
+				65C00E31160727EF00E293B3 /* AppDelegate.m in Sources */,
+				65C00E38160727EF00E293B3 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		65C00E29160727EF00E293B3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65C00E2A160727EF00E293B3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65C00E3A160727EF00E293B3 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65C00E3D160727EF00E293B3 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		65C00E3F160727EF00E293B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		65C00E40160727EF00E293B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		65C00E42160727EF00E293B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PlatformGame/PlatformGame-Prefix.pch";
+				INFOPLIST_FILE = "PlatformGame/PlatformGame-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		65C00E43160727EF00E293B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PlatformGame/PlatformGame-Prefix.pch";
+				INFOPLIST_FILE = "PlatformGame/PlatformGame-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		65C00E12160727EF00E293B3 /* Build configuration list for PBXProject "PlatformGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65C00E3F160727EF00E293B3 /* Debug */,
+				65C00E40160727EF00E293B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		65C00E41160727EF00E293B3 /* Build configuration list for PBXNativeTarget "PlatformGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65C00E42160727EF00E293B3 /* Debug */,
+				65C00E43160727EF00E293B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 65C00E0F160727EF00E293B3 /* Project object */;
+}
