@@ -15,11 +15,12 @@
 		65C00E2B160727EF00E293B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E29160727EF00E293B3 /* InfoPlist.strings */; };
 		65C00E2D160727EF00E293B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E2C160727EF00E293B3 /* main.m */; };
 		65C00E31160727EF00E293B3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E30160727EF00E293B3 /* AppDelegate.m */; };
-		65C00E33160727EF00E293B3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E32160727EF00E293B3 /* Shader.fsh */; };
-		65C00E35160727EF00E293B3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E34160727EF00E293B3 /* Shader.vsh */; };
 		65C00E38160727EF00E293B3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E37160727EF00E293B3 /* ViewController.m */; };
 		65C00E3B160727EF00E293B3 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */; };
 		65C00E3E160727EF00E293B3 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */; };
+		65C00E471607292C00E293B3 /* platforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E461607292C00E293B3 /* platforms.png */; };
+		65C00E4D160729E800E293B3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E491607298600E293B3 /* Shader.fsh */; };
+		65C00E4E160729E800E293B3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E4A1607298600E293B3 /* Shader.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,12 +36,13 @@
 		65C00E2E160727EF00E293B3 /* PlatformGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PlatformGame-Prefix.pch"; sourceTree = "<group>"; };
 		65C00E2F160727EF00E293B3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		65C00E30160727EF00E293B3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		65C00E32160727EF00E293B3 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
-		65C00E34160727EF00E293B3 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		65C00E36160727EF00E293B3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		65C00E37160727EF00E293B3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		65C00E3A160727EF00E293B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		65C00E3D160727EF00E293B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		65C00E461607292C00E293B3 /* platforms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platforms.png; sourceTree = "<group>"; };
+		65C00E491607298600E293B3 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		65C00E4A1607298600E293B3 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,10 +93,10 @@
 		65C00E26160727EF00E293B3 /* PlatformGame */ = {
 			isa = PBXGroup;
 			children = (
+				65C00E481607298600E293B3 /* Shaders */,
+				65C00E441607292C00E293B3 /* Images */,
 				65C00E2F160727EF00E293B3 /* AppDelegate.h */,
 				65C00E30160727EF00E293B3 /* AppDelegate.m */,
-				65C00E32160727EF00E293B3 /* Shader.fsh */,
-				65C00E34160727EF00E293B3 /* Shader.vsh */,
 				65C00E36160727EF00E293B3 /* ViewController.h */,
 				65C00E37160727EF00E293B3 /* ViewController.m */,
 				65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */,
@@ -113,6 +115,31 @@
 				65C00E2E160727EF00E293B3 /* PlatformGame-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		65C00E441607292C00E293B3 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E451607292C00E293B3 /* tiles */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		65C00E451607292C00E293B3 /* tiles */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E461607292C00E293B3 /* platforms.png */,
+			);
+			path = tiles;
+			sourceTree = "<group>";
+		};
+		65C00E481607298600E293B3 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				65C00E491607298600E293B3 /* Shader.fsh */,
+				65C00E4A1607298600E293B3 /* Shader.vsh */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,11 +193,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C00E4D160729E800E293B3 /* Shader.fsh in Resources */,
+				65C00E4E160729E800E293B3 /* Shader.vsh in Resources */,
 				65C00E2B160727EF00E293B3 /* InfoPlist.strings in Resources */,
-				65C00E33160727EF00E293B3 /* Shader.fsh in Resources */,
-				65C00E35160727EF00E293B3 /* Shader.vsh in Resources */,
 				65C00E3B160727EF00E293B3 /* ViewController_iPhone.xib in Resources */,
 				65C00E3E160727EF00E293B3 /* ViewController_iPad.xib in Resources */,
+				65C00E471607292C00E293B3 /* platforms.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
