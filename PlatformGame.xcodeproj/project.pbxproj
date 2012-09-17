@@ -21,6 +21,8 @@
 		65C00E471607292C00E293B3 /* platforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E461607292C00E293B3 /* platforms.png */; };
 		65C00E4D160729E800E293B3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E491607298600E293B3 /* Shader.fsh */; };
 		65C00E4E160729E800E293B3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 65C00E4A1607298600E293B3 /* Shader.vsh */; };
+		65C00E511607A3DB00E293B3 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E501607A3DB00E293B3 /* Game.m */; };
+		65C00E541607A6A500E293B3 /* Globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E531607A6A500E293B3 /* Globals.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,10 @@
 		65C00E461607292C00E293B3 /* platforms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platforms.png; sourceTree = "<group>"; };
 		65C00E491607298600E293B3 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		65C00E4A1607298600E293B3 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		65C00E4F1607A3DB00E293B3 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		65C00E501607A3DB00E293B3 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		65C00E521607A60800E293B3 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		65C00E531607A6A500E293B3 /* Globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Globals.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,10 @@
 				65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */,
 				65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */,
 				65C00E27160727EF00E293B3 /* Supporting Files */,
+				65C00E4F1607A3DB00E293B3 /* Game.h */,
+				65C00E501607A3DB00E293B3 /* Game.m */,
+				65C00E521607A60800E293B3 /* Globals.h */,
+				65C00E531607A6A500E293B3 /* Globals.c */,
 			);
 			path = PlatformGame;
 			sourceTree = "<group>";
@@ -212,6 +222,8 @@
 				65C00E2D160727EF00E293B3 /* main.m in Sources */,
 				65C00E31160727EF00E293B3 /* AppDelegate.m in Sources */,
 				65C00E38160727EF00E293B3 /* ViewController.m in Sources */,
+				65C00E511607A3DB00E293B3 /* Game.m in Sources */,
+				65C00E541607A6A500E293B3 /* Globals.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

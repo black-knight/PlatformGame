@@ -24,99 +24,43 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "ViewController.h"
+#import "Game.h"
+#import "Globals.h"
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-
-// Uniform index.
-enum
-{
-    UNIFORM_MODELVIEWPROJECTION_MATRIX,
-    UNIFORM_NORMAL_MATRIX,
-    NUM_UNIFORMS
-};
-GLint uniforms[NUM_UNIFORMS];
-
-// Attribute index.
-enum
-{
+enum {
     ATTRIB_VERTEX,
-    ATTRIB_NORMAL,
-    NUM_ATTRIBUTES
-};
-
-GLfloat gCubeVertexData[216] = 
-{
-    // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
-    
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
-    
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
-    
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
-    
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
+    ATTRIB_TEXCOORD,
 };
 
 @interface ViewController () {
-    GLuint _program;
-    
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
-    float _rotation;
-    
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
+
+@private
+
+    Game *game;
+
+    float frameSeconds;
+    double startTime;
 }
+
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
-- (void)setupGL;
-- (void)tearDownGL;
-
-- (BOOL)loadShaders;
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
-- (BOOL)linkProgram:(GLuint)prog;
-- (BOOL)validateProgram:(GLuint)prog;
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad
-{
+@synthesize context = _context;
+@synthesize effect = _effect;
+
+- (void) didBecomeInactive {
+    [game deactivate];
+}
+
+- (void) didBecomeActive {
+    [game reactivate];
+}
+
+- (void) viewDidLoad {
     [super viewDidLoad];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -125,15 +69,25 @@ GLfloat gCubeVertexData[216] =
         NSLog(@"Failed to create ES context");
     }
     
+    openglContext = self.context;
+    
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+
+    self.preferredFramesPerSecond = 60;
     
     [self setupGL];
+
+    game = [[Game alloc] init];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [self.view addGestureRecognizer:tapRecognizer];
+    
+    startTime = CFAbsoluteTimeGetCurrent();
 }
 
-- (void)viewDidUnload
-{    
+- (void)viewDidUnload {
     [super viewDidUnload];
     
     [self tearDownGL];
@@ -144,154 +98,92 @@ GLfloat gCubeVertexData[216] =
 	self.context = nil;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc. that aren't in use.
+    NSLog(@"Warning: Low memory!");
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
 }
 
-- (void)setupGL
-{
+- (void)setupGL {
     [EAGLContext setCurrentContext:self.context];
+    //textureLoader = [[GLKTextureLoader alloc] initWithSharegroup:self.context.sharegroup];
     
-    [self loadShaders];
+    [self loadShaders:@"Shader" index:0];
     
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
-    
+    glkEffectNormal = [[GLKBaseEffect alloc] init];
+    glkEffectShader = [[GLKBaseEffect alloc] init];
+    self.effect = glkEffectNormal;
+
     glEnable(GL_DEPTH_TEST);
     
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
+    [self getScreenSize];
 }
 
-- (void)tearDownGL
-{
+- (void)tearDownGL {
     [EAGLContext setCurrentContext:self.context];
-    
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArraysOES(1, &_vertexArray);
     
     self.effect = nil;
     
-    if (_program) {
-        glDeleteProgram(_program);
-        _program = 0;
+    for (int i = 0; i < GLSL_PROGRAM_COUNT; i++) {
+	    if (glslProgram[i]) {
+    	    glDeleteProgram(glslProgram[i]);
+        	glslProgram[i] = 0;
+	    }
     }
+}
+
+- (void) getScreenSize {
+    screenWidth = [UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale;
+    screenHeight = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
+
+    screenWidthNoScale = [UIScreen mainScreen].bounds.size.width;
+    screenHeightNoScale = [UIScreen mainScreen].bounds.size.height;
+    
+    aspectRatio = fabsf(screenWidth / screenHeight);
+    
+    NSLog(@"Screen size: %i, %i", (int) screenWidth, (int) screenHeight);
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
-- (void)update
-{
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
-    
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    _rotation += self.timeSinceLastUpdate * 0.5f;
+- (void)update {
+    [game updateWithTimeInterval:self.timeSinceLastUpdate];
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
+    [game render];
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
 
-- (BOOL)loadShaders
-{
+- (BOOL)loadShaders:(NSString*)filename index:(int)index {
     GLuint vertShader, fragShader;
     NSString *vertShaderPathname, *fragShaderPathname;
     
-    // Create shader program.
-    _program = glCreateProgram();
+    glslProgram[index] = glCreateProgram();
     
-    // Create and compile vertex shader.
-    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"vsh"];
+    vertShaderPathname = [[NSBundle mainBundle] pathForResource:filename ofType:@"vsh"];
     if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
         NSLog(@"Failed to compile vertex shader");
         return NO;
     }
     
-    // Create and compile fragment shader.
-    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"fsh"];
+    fragShaderPathname = [[NSBundle mainBundle] pathForResource:filename ofType:@"fsh"];
     if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
         NSLog(@"Failed to compile fragment shader");
         return NO;
     }
     
-    // Attach vertex shader to program.
-    glAttachShader(_program, vertShader);
+    glAttachShader(glslProgram[index], vertShader);
+    glAttachShader(glslProgram[index], fragShader);
     
-    // Attach fragment shader to program.
-    glAttachShader(_program, fragShader);
+    glBindAttribLocation(glslProgram[index], ATTRIB_VERTEX, "position");
     
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    glBindAttribLocation(_program, GLKVertexAttribPosition, "position");
-    glBindAttribLocation(_program, GLKVertexAttribNormal, "normal");
-    
-    // Link program.
-    if (![self linkProgram:_program]) {
-        NSLog(@"Failed to link program: %d", _program);
-        
+    if (![self linkProgram:glslProgram[index]]) {
+        NSLog(@"Failed to link program: %d", glslProgram[index]);
         if (vertShader) {
             glDeleteShader(vertShader);
             vertShader = 0;
@@ -300,33 +192,29 @@ GLfloat gCubeVertexData[216] =
             glDeleteShader(fragShader);
             fragShader = 0;
         }
-        if (_program) {
-            glDeleteProgram(_program);
-            _program = 0;
+        if (glslProgram) {
+            glDeleteProgram(glslProgram[index]);
+            glslProgram[index] = 0;
         }
         
         return NO;
     }
     
-    // Get uniform locations.
-    uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
-    uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
+    uniformModelViewProjectionMatrix = glGetUniformLocation(glslProgram[index], "modelViewProjectionMatrix");
     
-    // Release vertex and fragment shaders.
     if (vertShader) {
-        glDetachShader(_program, vertShader);
+        glDetachShader(glslProgram[index], vertShader);
         glDeleteShader(vertShader);
     }
     if (fragShader) {
-        glDetachShader(_program, fragShader);
+        glDetachShader(glslProgram[index], fragShader);
         glDeleteShader(fragShader);
     }
     
     return YES;
 }
 
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file
-{
+- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file {
     GLint status;
     const GLchar *source;
     
@@ -360,8 +248,7 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
-- (BOOL)linkProgram:(GLuint)prog
-{
+- (BOOL)linkProgram:(GLuint)prog {
     GLint status;
     glLinkProgram(prog);
     
@@ -384,8 +271,7 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
-- (BOOL)validateProgram:(GLuint)prog
-{
+- (BOOL)validateProgram:(GLuint)prog {
     GLint logLength, status;
     
     glValidateProgram(prog);

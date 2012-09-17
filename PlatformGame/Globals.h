@@ -23,7 +23,27 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-void main()
-{
-    //gl_FragColor = colorVarying;
-}
+#ifndef Demoteket_Globals_h
+#define Demoteket_Globals_h
+
+#define GLSL_PROGRAM_COUNT 1
+
+float screenWidth;
+float screenHeight;
+float screenWidthNoScale;
+float screenHeightNoScale;
+float aspectRatio;
+
+EAGLContext *openglContext;
+
+GLKBaseEffect *glkEffectNormal;
+GLKBaseEffect *glkEffectShader;
+
+GLuint glslProgram[GLSL_PROGRAM_COUNT];
+GLuint currentShaderProgram;
+
+GLuint uniformModelViewProjectionMatrix;
+
+extern int textureAtLeastSize(int size);
+
+#endif

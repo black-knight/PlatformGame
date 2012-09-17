@@ -23,7 +23,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-void main()
-{
-    //gl_FragColor = colorVarying;
+#import <math.h>
+
+int textureAtLeastSize(int size) {
+    int l = (int) log2(size);
+    if ((int) pow(2, l) == size) {
+        return size;
+    } else {
+        return (int) pow(2, l + 1);
+    }
 }
