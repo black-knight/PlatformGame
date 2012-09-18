@@ -23,7 +23,18 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@interface Stage : NSObject
+#import "HeroCharacter.h"
+#import "Layer.h"
+
+#define LAYER_COUNT 1
+
+@interface Stage : NSObject {
+
+@private
+    
+    HeroCharacter *hero;
+    Layer *layer[LAYER_COUNT];
+}
 
 - (void) update;
 - (void) render;

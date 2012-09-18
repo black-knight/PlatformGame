@@ -25,15 +25,9 @@
 
 #import "Character.h"
 
-@implementation Character
+@interface HeroCharacter : Character
 
-@synthesize position;
-@synthesize velocity;
-
-- (void) update {
-}
-
-- (void) render {
-}
+- (void) update;
+- (void) render;
 
 @end

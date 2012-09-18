@@ -23,17 +23,16 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Character.h"
+#import "HeroCharacter.h"
 
-@implementation Character
-
-@synthesize position;
-@synthesize velocity;
+@implementation HeroCharacter
 
 - (void) update {
+    [super update];
 }
 
 - (void) render {
+    [super render];
 }
 
 @end

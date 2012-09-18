@@ -23,9 +23,19 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@interface Character : NSObject
+#import <GLKit/GLKit.h>
+
+@interface Character : NSObject {
+
+@protected
+    GLKVector2 position;
+    GLKVector2 velocity;
+}
 
 - (void) update;
 - (void) render;
+
+@property (readonly) GLKVector2 position;
+@property (readonly) GLKVector2 velocity;
 
 @end

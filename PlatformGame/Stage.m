@@ -27,10 +27,32 @@
 
 @implementation Stage
 
+- (id) init {
+    if (self = [super init]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void) initialize {
+    for (int i = 0; i < LAYER_COUNT; i++) {
+        layer[i] = [[Layer alloc] init];
+    }
+    hero = [[HeroCharacter alloc] init];
+}
+
 - (void) update {
+    for (int i = 0; i < LAYER_COUNT; i++) {
+        [layer[i] update];
+    }
+    [hero update];
 }
 
 - (void) render {
+    for (int i = 0; i < LAYER_COUNT; i++) {
+        [layer[i] render];
+    }
+    [hero render];
 }
 
 @end
