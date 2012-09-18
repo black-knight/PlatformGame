@@ -23,59 +23,60 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Game.h"
-#import "Globals.h"
+#import "Texture.h"
 
-#define FRAME_RATE ((1000.0f / 60.0f) / 1000.0f)
+@implementation Texture
 
-@implementation Game
+@synthesize texId;
 
-float anim = 0.0f;
+@synthesize width;
+@synthesize height;
 
-- (id) init {
+@synthesize texCoordX1;
+@synthesize texCoordY1;
+@synthesize texCoordX2;
+@synthesize texCoordY2;
+
+@synthesize blend;
+
+- (id) initWithId:(GLuint)textureId {
     if (self = [super init]) {
-        [self initialize];
+        [self resetToDefault];
+        texId = textureId;
     }
     return self;
 }
 
-- (void) initialize {
-    textureLoader = [[TextureLoader alloc] init];
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) reactivate {
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) deactivate {
-    
-}
-
-- (void) updateWithTimeInterval:(double)timeSinceLastUpdate {
-    frameSeconds = MIN(frameSeconds + timeSinceLastUpdate, FRAME_RATE * 2.0f);
-    while (frameSeconds >= FRAME_RATE) {
-        [self update];
-        frameSeconds -= FRAME_RATE;
+- (id) initWithId:(GLuint)textureId width:(float) texWidth height:(float)texHeight {
+    if (self = [super init]) {
+        [self resetToDefault];
+        texId = textureId;
+        width = texWidth;
+        height = texHeight;
     }
+    return self;
 }
 
-- (void) update {
-    [self setupView];
-    anim += 0.1f;
+- (id) initWithId:(GLuint)textureId texCoordX1:(float)x1 texCoordY1:(float)y1 texCoordX2:(float)x2 texCoordY2:(float)y2 {
+    if (self = [super init]) {
+        [self resetToDefault];
+        texId = textureId;
+        texCoordX1 = x1;
+        texCoordY1 = y1;
+        texCoordX2 = x2;
+        texCoordY2 = y2;
+    }
+    return self;
 }
 
-- (void) setupView {
-    //sceneProjectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspectRatio, 0.1f, ROOM_MAX_SIZE * BLOCK_SIZE);
-    
-    //orthoProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
-    //orthoModelViewMatrix = GLKMatrix4Identity;
+- (void) resetToDefault {
+    width = 0.0f;
+    height = 0.0f;
+    texCoordX1 = 0.0f;
+    texCoordY1 = 0.0f;
+    texCoordX2 = 1.0f;
+    texCoordY2 = 1.0f;
+    blend.enabled = false;
 }
-
-- (void) render {
-    glClearColor(0.0f, 0.0f, cos(anim) * 0.5f + 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
 
 @end

@@ -23,59 +23,17 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Game.h"
-#import "Globals.h"
+#import <GLKit/GLKit.h>
+#import "Texture.h"
 
-#define FRAME_RATE ((1000.0f / 60.0f) / 1000.0f)
+@interface TextureLoader : NSObject {
 
-@implementation Game
-
-float anim = 0.0f;
-
-- (id) init {
-    if (self = [super init]) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (void) initialize {
-    textureLoader = [[TextureLoader alloc] init];
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) reactivate {
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) deactivate {
+@private
     
+    GLKTextureLoader *textureLoader;
 }
 
-- (void) updateWithTimeInterval:(double)timeSinceLastUpdate {
-    frameSeconds = MIN(frameSeconds + timeSinceLastUpdate, FRAME_RATE * 2.0f);
-    while (frameSeconds >= FRAME_RATE) {
-        [self update];
-        frameSeconds -= FRAME_RATE;
-    }
-}
-
-- (void) update {
-    [self setupView];
-    anim += 0.1f;
-}
-
-- (void) setupView {
-    //sceneProjectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspectRatio, 0.1f, ROOM_MAX_SIZE * BLOCK_SIZE);
-    
-    //orthoProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
-    //orthoModelViewMatrix = GLKMatrix4Identity;
-}
-
-- (void) render {
-    glClearColor(0.0f, 0.0f, cos(anim) * 0.5f + 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
+- (Texture*) loadSynchroniously:(NSString*)filename repeat:(bool)repeat;
+- (void) loadAsynchroniously:(NSString*)filename repeat:(bool)repeat callback:(void(^)(Texture*))callback;
 
 @end

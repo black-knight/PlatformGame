@@ -23,9 +23,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Character.h"
+#import "MoveableCharacter.h"
 
-@interface HeroCharacter : Character
+@interface HeroCharacter : MoveableCharacter
 
 - (void) update;
 - (void) render;

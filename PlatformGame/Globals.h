@@ -26,6 +26,8 @@
 #ifndef Demoteket_Globals_h
 #define Demoteket_Globals_h
 
+#import "TextureLoader.h"
+
 #define GLSL_PROGRAM_COUNT 1
 
 float screenWidth;
@@ -35,6 +37,8 @@ float screenHeightNoScale;
 float aspectRatio;
 
 EAGLContext *openglContext;
+
+TextureLoader *textureLoader;
 
 GLKBaseEffect *glkEffectNormal;
 GLKBaseEffect *glkEffectShader;

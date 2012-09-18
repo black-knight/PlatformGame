@@ -23,59 +23,45 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Game.h"
-#import "Globals.h"
+#import <GLKit/GLKit.h>
 
-#define FRAME_RATE ((1000.0f / 60.0f) / 1000.0f)
+typedef struct {
+    bool enabled;
+    GLenum blendSrc;
+    GLenum blendDst;
+} BLEND;
 
-@implementation Game
+@interface Texture : NSObject {
 
-float anim = 0.0f;
-
-- (id) init {
-    if (self = [super init]) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (void) initialize {
-    textureLoader = [[TextureLoader alloc] init];
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) reactivate {
-    frameSeconds = FRAME_RATE;
-}
-
-- (void) deactivate {
+@private
     
-}
+    GLuint texId;
 
-- (void) updateWithTimeInterval:(double)timeSinceLastUpdate {
-    frameSeconds = MIN(frameSeconds + timeSinceLastUpdate, FRAME_RATE * 2.0f);
-    while (frameSeconds >= FRAME_RATE) {
-        [self update];
-        frameSeconds -= FRAME_RATE;
-    }
-}
-
-- (void) update {
-    [self setupView];
-    anim += 0.1f;
-}
-
-- (void) setupView {
-    //sceneProjectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspectRatio, 0.1f, ROOM_MAX_SIZE * BLOCK_SIZE);
+    float width;
+    float height;
     
-    //orthoProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
-    //orthoModelViewMatrix = GLKMatrix4Identity;
+    float texCoordX1;
+    float texCoordY1;
+    float texCoordX2;
+    float texCoordY2;
+    
+    BLEND blend;
 }
 
-- (void) render {
-    glClearColor(0.0f, 0.0f, cos(anim) * 0.5f + 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
+- (id) initWithId:(GLuint)textureId;
+- (id) initWithId:(GLuint)textureId width:(float) texWidth height:(float)texHeight;
+- (id) initWithId:(GLuint)textureId texCoordX1:(float)x1 texCoordY1:(float)y1 texCoordX2:(float)x2 texCoordY2:(float)y2;
 
+@property (readonly) GLuint texId;
+
+@property (readwrite) float width;
+@property (readwrite) float height;
+
+@property (readwrite) float texCoordX1;
+@property (readwrite) float texCoordY1;
+@property (readwrite) float texCoordX2;
+@property (readwrite) float texCoordY2;
+
+@property (readwrite) BLEND blend;
 
 @end
