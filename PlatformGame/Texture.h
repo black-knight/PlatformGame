@@ -36,6 +36,8 @@ typedef struct {
 @private
     
     GLuint texId;
+    bool initialized;
+    NSString *filename;
 
     float width;
     float height;
@@ -46,13 +48,17 @@ typedef struct {
     float texCoordY2;
     
     BLEND blend;
+    
+    bool repeat;
 }
 
-- (id) initWithId:(GLuint)textureId;
-- (id) initWithId:(GLuint)textureId width:(float) texWidth height:(float)texHeight;
-- (id) initWithId:(GLuint)textureId texCoordX1:(float)x1 texCoordY1:(float)y1 texCoordX2:(float)x2 texCoordY2:(float)y2;
+- (id) initWithFilename:(NSString*)textureFilename;
 
-@property (readonly) GLuint texId;
+@property (readwrite) GLuint texId;
+
+@property (readonly) bool initialized;
+
+@property (readwrite) NSString *filename;
 
 @property (readwrite) float width;
 @property (readwrite) float height;
@@ -63,5 +69,7 @@ typedef struct {
 @property (readwrite) float texCoordY2;
 
 @property (readwrite) BLEND blend;
+
+@property (readwrite) bool repeat;
 
 @end

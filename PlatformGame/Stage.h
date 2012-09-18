@@ -36,6 +36,8 @@
     Layer *layer[LAYER_COUNT];
 }
 
+- (void) prepareStage:(int)number;
+
 - (void) update;
 - (void) render;
 

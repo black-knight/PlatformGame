@@ -32,39 +32,63 @@
     if (self = [super init]) {
         NSLog(@"Initializing texture loader");
         textureLoader = [[GLKTextureLoader alloc] initWithSharegroup:openglContext.sharegroup];
+        [self initializeDictionary];
+        
     }
     return self;
 }
 
-- (Texture*) loadSynchroniously:(NSString*)filename repeat:(bool)repeat {
-    NSError *error;
-    GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:filename options:nil error:&error];
-    if (error) {
-        NSLog(@"Error loading texture synchronously: %@", filename);
-        return NULL;
-    }
-    return [self textureFromTextureInfo:textureInfo repeat:repeat];
+- (void) initializeDictionary {
+    textures = [NSMutableDictionary dictionary];
+    [textures setObject:[[Texture alloc] initWithFilename:@"tiles/platforms.png"] forKey:[NSNumber numberWithInt:TEXTURE_TILES_PLATFORM]];
 }
 
-- (void) loadAsynchroniously:(NSString*)filename repeat:(bool)repeat callback:(void(^)(Texture*))callback {
-    [textureLoader textureWithContentsOfFile:filename options:nil queue:NULL completionHandler:^(GLKTextureInfo *textureInfo, NSError *error) {
+- (Texture*) loadSynchroniously:(int)textureNumber {
+    NSError *error;
+    Texture *texture = [self load:textureNumber];
+    if (texture.initialized) {
+        return texture;
+    }
+    GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:texture.filename options:nil error:&error];
+    if (error) {
+        NSLog(@"Error loading texture synchronously: %@", texture.filename);
+        return NULL;
+    }
+    [self textureFromTextureInfo:textureInfo texture:texture];
+    return texture;
+}
+
+- (void) loadAsynchroniously:(int)textureNumber callback:(void(^)(Texture*))callback {
+    Texture *texture = [self load:textureNumber];
+    if (texture.initialized) {
+        callback(texture);
+        return;
+    }
+    [textureLoader textureWithContentsOfFile:texture.filename options:nil queue:NULL completionHandler:^(GLKTextureInfo *textureInfo, NSError *error) {
         if (error) {
             NSLog(@"Error loading texture asynchronously: %@", error);
         }
-        callback([self textureFromTextureInfo:textureInfo repeat:repeat]);
+        [self textureFromTextureInfo:textureInfo texture:texture];
+        callback(texture);
     }];
 }
 
-- (Texture*) textureFromTextureInfo:(GLKTextureInfo*)textureInfo repeat:(bool)repeat {
+- (Texture*) load:(int)number {
+    return [textures objectForKey:[NSNumber numberWithInt:number]];
+}
+
+- (void) textureFromTextureInfo:(GLKTextureInfo*)textureInfo texture:(Texture*)texture {
     glBindTexture(GL_TEXTURE_2D, textureInfo.name);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    if (repeat) {
+    if (texture.repeat) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
     glBindTexture(GL_TEXTURE_2D, 0);
-    return [[Texture alloc] initWithId:textureInfo.name width:textureInfo.width height:textureInfo.height];
+    texture.texId = textureInfo.name;
+	texture.width = textureInfo.width;
+	texture.height = textureInfo.height;
 }
 
 @end

@@ -29,6 +29,10 @@
 
 @synthesize texId;
 
+@synthesize initialized;
+
+@synthesize filename;
+
 @synthesize width;
 @synthesize height;
 
@@ -39,37 +43,18 @@
 
 @synthesize blend;
 
-- (id) initWithId:(GLuint)textureId {
-    if (self = [super init]) {
-        [self resetToDefault];
-        texId = textureId;
-    }
-    return self;
-}
+@synthesize repeat;
 
-- (id) initWithId:(GLuint)textureId width:(float) texWidth height:(float)texHeight {
+- (id) initWithFilename:(NSString*)textureFilename {
     if (self = [super init]) {
         [self resetToDefault];
-        texId = textureId;
-        width = texWidth;
-        height = texHeight;
-    }
-    return self;
-}
-
-- (id) initWithId:(GLuint)textureId texCoordX1:(float)x1 texCoordY1:(float)y1 texCoordX2:(float)x2 texCoordY2:(float)y2 {
-    if (self = [super init]) {
-        [self resetToDefault];
-        texId = textureId;
-        texCoordX1 = x1;
-        texCoordY1 = y1;
-        texCoordX2 = x2;
-        texCoordY2 = y2;
+        filename = textureFilename;
     }
     return self;
 }
 
 - (void) resetToDefault {
+    initialized = false;
     width = 0.0f;
     height = 0.0f;
     texCoordX1 = 0.0f;

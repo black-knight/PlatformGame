@@ -41,6 +41,10 @@
     hero = [[HeroCharacter alloc] init];
 }
 
+- (void) prepareStage:(int)number {
+    
+}
+
 - (void) update {
     for (int i = 0; i < LAYER_COUNT; i++) {
         [layer[i] update];

@@ -26,14 +26,17 @@
 #import <GLKit/GLKit.h>
 #import "Texture.h"
 
+#define TEXTURE_TILES_PLATFORM 0
+
 @interface TextureLoader : NSObject {
 
 @private
     
     GLKTextureLoader *textureLoader;
+    NSMutableDictionary *textures;
 }
 
-- (Texture*) loadSynchroniously:(NSString*)filename repeat:(bool)repeat;
-- (void) loadAsynchroniously:(NSString*)filename repeat:(bool)repeat callback:(void(^)(Texture*))callback;
+- (Texture*) loadSynchroniously:(int)textureNumber;
+- (void) loadAsynchroniously:(int)textureNumber callback:(void(^)(Texture*))callback;
 
 @end
