@@ -67,6 +67,7 @@ enum {
 
     if (!self.context) {
         NSLog(@"Failed to create ES context");
+        exit(-1);
     }
     
     openglContext = self.context;
@@ -109,13 +110,11 @@ enum {
 
 - (void)setupGL {
     [EAGLContext setCurrentContext:self.context];
-    //textureLoader = [[GLKTextureLoader alloc] initWithSharegroup:self.context.sharegroup];
     
     [self loadShaders:@"Shader" index:0];
     
-    glkEffectNormal = [[GLKBaseEffect alloc] init];
-    glkEffectShader = [[GLKBaseEffect alloc] init];
-    self.effect = glkEffectNormal;
+    glkEffect = [[GLKBaseEffect alloc] init];
+    self.effect = glkEffect;
 
     glEnable(GL_DEPTH_TEST);
     
@@ -142,7 +141,9 @@ enum {
     screenWidthNoScale = [UIScreen mainScreen].bounds.size.width;
     screenHeightNoScale = [UIScreen mainScreen].bounds.size.height;
     
-    aspectRatio = fabsf(screenWidth / screenHeight);
+    aspectRatio = fabsf(MIN(screenWidth, screenHeight) / MAX(screenWidth, screenHeight));
+    aspectRatioX = MIN(1.0f, fabsf(screenWidth / screenHeight));
+    aspectRatioY = MIN(1.0f, fabsf(screenHeight / screenWidth));
     
     NSLog(@"Screen size: %i, %i", (int) screenWidth, (int) screenHeight);
 }

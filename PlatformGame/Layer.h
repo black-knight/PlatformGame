@@ -23,19 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#define MAP_WIDTH 32
-#define MAP_HEIGHT 32
-
-typedef struct {
-    char type;
-} BRICK;
-
-@interface Layer : NSObject {
-
-@private
-    
-    BRICK bricks[MAP_HEIGHT][MAP_WIDTH];
-}
+@interface Layer : NSObject
 
 - (void) update;
 - (void) render;

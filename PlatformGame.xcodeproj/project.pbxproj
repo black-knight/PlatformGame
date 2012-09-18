@@ -14,6 +14,8 @@
 		65777B5916087E6F0087A3CD /* MoveableCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5816087E6F0087A3CD /* MoveableCharacter.m */; };
 		65777B5C16087F080087A3CD /* TextureLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5B16087F080087A3CD /* TextureLoader.m */; };
 		65777B5F16087F9C0087A3CD /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5E16087F9B0087A3CD /* Texture.m */; };
+		65777B621608F13A0087A3CD /* TilesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B611608F13A0087A3CD /* TilesLayer.m */; };
+		65777B651608F76C0087A3CD /* Quads.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B641608F76C0087A3CD /* Quads.m */; };
 		65C00E1D160727EF00E293B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1C160727EF00E293B3 /* UIKit.framework */; };
 		65C00E1F160727EF00E293B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1E160727EF00E293B3 /* Foundation.framework */; };
 		65C00E21160727EF00E293B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E20160727EF00E293B3 /* CoreGraphics.framework */; };
@@ -47,6 +49,10 @@
 		65777B5B16087F080087A3CD /* TextureLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureLoader.m; sourceTree = "<group>"; };
 		65777B5D16087F9B0087A3CD /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		65777B5E16087F9B0087A3CD /* Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture.m; sourceTree = "<group>"; };
+		65777B601608F13A0087A3CD /* TilesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilesLayer.h; sourceTree = "<group>"; };
+		65777B611608F13A0087A3CD /* TilesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TilesLayer.m; sourceTree = "<group>"; };
+		65777B631608F76C0087A3CD /* Quads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quads.h; sourceTree = "<group>"; };
+		65777B641608F76C0087A3CD /* Quads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quads.m; sourceTree = "<group>"; };
 		65C00E18160727EF00E293B3 /* PlatformGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C00E1C160727EF00E293B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		65C00E1E160727EF00E293B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -137,6 +143,8 @@
 				65777B4B1607AB6D0087A3CD /* Stage.m */,
 				65777B4E1607AB960087A3CD /* Layer.h */,
 				65777B4F1607AB960087A3CD /* Layer.m */,
+				65777B601608F13A0087A3CD /* TilesLayer.h */,
+				65777B611608F13A0087A3CD /* TilesLayer.m */,
 				65777B5116085FAB0087A3CD /* Character.h */,
 				65777B5216085FAB0087A3CD /* Character.m */,
 				65777B5716087E6F0087A3CD /* MoveableCharacter.h */,
@@ -147,6 +155,8 @@
 				65777B5B16087F080087A3CD /* TextureLoader.m */,
 				65777B5D16087F9B0087A3CD /* Texture.h */,
 				65777B5E16087F9B0087A3CD /* Texture.m */,
+				65777B631608F76C0087A3CD /* Quads.h */,
+				65777B641608F76C0087A3CD /* Quads.m */,
 			);
 			path = PlatformGame;
 			sourceTree = "<group>";
@@ -266,6 +276,8 @@
 				65777B5916087E6F0087A3CD /* MoveableCharacter.m in Sources */,
 				65777B5C16087F080087A3CD /* TextureLoader.m in Sources */,
 				65777B5F16087F9C0087A3CD /* Texture.m in Sources */,
+				65777B621608F13A0087A3CD /* TilesLayer.m in Sources */,
+				65777B651608F76C0087A3CD /* Quads.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

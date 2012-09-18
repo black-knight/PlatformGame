@@ -23,36 +23,35 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef Demoteket_Globals_h
-#define Demoteket_Globals_h
+#import "Layer.h"
+#import "Texture.h"
+#import "Quads.h"
 
-#import "TextureLoader.h"
+#define TILE_WIDTH 128.0f
+#define TILE_HEIGHT 128.0f
+#define TILE_COUNT 64
 
-#define GLSL_PROGRAM_COUNT 1
+#define MAP_WIDTH 32
+#define MAP_HEIGHT 32
+#define MAP_SCALE (1.0f / 4.0f)
 
-float screenWidth;
-float screenHeight;
-float screenWidthNoScale;
-float screenHeightNoScale;
+typedef struct {
+    char type;
+} BRICK;
 
-float aspectRatio;
-float aspectRatioX;
-float aspectRatioY;
+@interface TilesLayer : Layer {
 
-TextureLoader *textureLoader;
+@private
 
-GLKMatrix4 sceneModelViewMatrix;
-GLKMatrix4 sceneProjectionMatrix;
+	BRICK bricks[MAP_HEIGHT][MAP_WIDTH];
 
-EAGLContext *openglContext;
+    Quads *offscreenQuad;
+    Texture *offscreenTexture;
+    GLuint offscreenFramebuffer;
+    GLuint offscreenDepthBuffer;
 
-GLKBaseEffect *glkEffect;
+    Quads *tileQuad[TILE_COUNT];
+    Texture *tileTexture[TILE_COUNT];
+}
 
-GLuint glslProgram[GLSL_PROGRAM_COUNT];
-GLuint currentShaderProgram;
-
-GLuint uniformModelViewProjectionMatrix;
-
-extern int textureAtLeastSize(int size);
-
-#endif
+@end

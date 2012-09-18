@@ -45,6 +45,13 @@
 
 @synthesize repeat;
 
+- (id) init {
+    if (self = [super init]) {
+        [self resetToDefault];
+    }
+    return self;
+}
+
 - (id) initWithFilename:(NSString*)textureFilename {
     if (self = [super init]) {
         [self resetToDefault];
@@ -53,8 +60,13 @@
     return self;
 }
 
+- (void) releaseTexture {
+    glDeleteTextures(1, &texId);
+}
+
 - (void) resetToDefault {
     initialized = false;
+    filename = NULL;
     width = 0.0f;
     height = 0.0f;
     texCoordX1 = 0.0f;
@@ -62,6 +74,12 @@
     texCoordX2 = 1.0f;
     texCoordY2 = 1.0f;
     blend.enabled = false;
+}
+
+- (void) setBlendSrc:(GLenum)blendSrc blendDst:(GLenum)blendDst {
+    blend.enabled = true;
+    blend.blendSrc = blendSrc;
+    blend.blendDst = blendDst;
 }
 
 @end

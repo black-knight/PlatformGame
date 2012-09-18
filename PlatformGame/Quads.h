@@ -23,36 +23,58 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef Demoteket_Globals_h
-#define Demoteket_Globals_h
+#import "Texture.h"
 
-#import "TextureLoader.h"
+#define QUADS_MAX_COUNT 32
+#define VERTICES_MAX_COUNT (QUADS_MAX_COUNT * 9 * 3 * sizeof(GLfloat))
 
-#define GLSL_PROGRAM_COUNT 1
+typedef struct {
+    float x1, y1, z1;
+    float x2, y2, z2;
+    float x3, y3, z3;
+    float x4, y4, z4;
+} Quad;
 
-float screenWidth;
-float screenHeight;
-float screenWidthNoScale;
-float screenHeightNoScale;
+@interface Quads : NSObject {
 
-float aspectRatio;
-float aspectRatioX;
-float aspectRatioY;
+@private
+    
+    Quad quads[QUADS_MAX_COUNT];
+    int quadCount;
 
-TextureLoader *textureLoader;
+    Texture *texture;
+    bool textureToggled;
 
-GLKMatrix4 sceneModelViewMatrix;
-GLKMatrix4 sceneProjectionMatrix;
+    GLKVector4 color;
+    GLKVector4 backgroundColor;
+    
+    GLfloat vertices[VERTICES_MAX_COUNT];
+    
+    GLuint vertexArray;
+    GLuint vertexBuffer;
 
-EAGLContext *openglContext;
+    GLKVector3 translation;
+    GLKVector3 rotation;
+}
 
-GLKBaseEffect *glkEffect;
+- (id) initWithColor:(GLKVector4)col;
+- (id) initWithTexture:(Texture*)texture;
+- (id) initWithTexture:(Texture*)texture color:(GLKVector4)col;
 
-GLuint glslProgram[GLSL_PROGRAM_COUNT];
-GLuint currentShaderProgram;
+- (void) end;
 
-GLuint uniformModelViewProjectionMatrix;
+- (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height;
+- (void) addQuadX1:(float)x1 y1:(float)y1 x2:(float)x2 y2:(float)y2 x3:(float)x3 y3:(float)y3 x4:(float)x4 y4:(float)y4;
+- (void) addQuadX1:(float)x1 y1:(float)y1 z1:(float)z1 x2:(float)x2 y2:(float)y2 z2:(float)z2 x3:(float)x3 y3:(float)y3 z3:(float)z3 x4:(float)x4 y4:(float)y4 z4:(float)z4;
 
-extern int textureAtLeastSize(int size);
+- (void) render;
 
-#endif
+@property (readwrite) GLKVector4 color;
+@property (readwrite) GLKVector4 backgroundColor;
+
+@property (readwrite) Texture *texture;
+
+@property (readwrite) GLKVector3 translation;
+@property (readwrite) GLKVector3 rotation;
+
+@end

@@ -30,8 +30,6 @@
 
 @implementation Game
 
-float anim = 0.0f;
-
 - (id) init {
     if (self = [super init]) {
         [self initialize];
@@ -40,8 +38,10 @@ float anim = 0.0f;
 }
 
 - (void) initialize {
-    textureLoader = [[TextureLoader alloc] init];
     frameSeconds = FRAME_RATE;
+    textureLoader = [[TextureLoader alloc] init];
+    stage = [[Stage alloc] init];
+    [stage prepareStage:0];
 }
 
 - (void) reactivate {
@@ -62,19 +62,18 @@ float anim = 0.0f;
 
 - (void) update {
     [self setupView];
-    anim += 0.1f;
+    [stage update];
 }
 
 - (void) setupView {
-    //sceneProjectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspectRatio, 0.1f, ROOM_MAX_SIZE * BLOCK_SIZE);
-    
-    //orthoProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 1.0f);
-    //orthoModelViewMatrix = GLKMatrix4Identity;
+    sceneProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, aspectRatioX, 0.0f, aspectRatioY, -1.0f, 1.0f);
+    sceneModelViewMatrix = GLKMatrix4Identity;
 }
 
 - (void) render {
-    glClearColor(0.0f, 0.0f, cos(anim) * 0.5f + 0.5f, 1.0f);
+    glClearColor(0.2f, 0.4f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    [stage render];
 }
 
 

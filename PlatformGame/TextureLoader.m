@@ -40,7 +40,7 @@
 
 - (void) initializeDictionary {
     textures = [NSMutableDictionary dictionary];
-    [textures setObject:[[Texture alloc] initWithFilename:@"tiles/platforms.png"] forKey:[NSNumber numberWithInt:TEXTURE_TILES_PLATFORM]];
+    [textures setObject:[[Texture alloc] initWithFilename:[[NSBundle mainBundle] pathForResource:@"platforms" ofType:@"png"]] forKey:[NSNumber numberWithInt:TEXTURE_TILES_PLATFORM]];
 }
 
 - (Texture*) loadSynchroniously:(int)textureNumber {
@@ -51,8 +51,8 @@
     }
     GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:texture.filename options:nil error:&error];
     if (error) {
-        NSLog(@"Error loading texture synchronously: %@", texture.filename);
-        return NULL;
+        NSLog(@"Error loading texture synchronously: %@ [%@]", texture.filename, error.description);
+        exit(-1);
     }
     [self textureFromTextureInfo:textureInfo texture:texture];
     return texture;
@@ -66,7 +66,8 @@
     }
     [textureLoader textureWithContentsOfFile:texture.filename options:nil queue:NULL completionHandler:^(GLKTextureInfo *textureInfo, NSError *error) {
         if (error) {
-            NSLog(@"Error loading texture asynchronously: %@", error);
+            NSLog(@"Error loading texture asynchronously: %@ [%@]", error, error.description);
+            exit(-1);
         }
         [self textureFromTextureInfo:textureInfo texture:texture];
         callback(texture);
@@ -89,6 +90,7 @@
     texture.texId = textureInfo.name;
 	texture.width = textureInfo.width;
 	texture.height = textureInfo.height;
+    texture.initialized = true;
 }
 
 @end

@@ -53,10 +53,13 @@ typedef struct {
 }
 
 - (id) initWithFilename:(NSString*)textureFilename;
+- (void) releaseTexture;
 
+- (void) setBlendSrc:(GLenum)blendSrc blendDst:(GLenum)blendDst;
+                  
 @property (readwrite) GLuint texId;
 
-@property (readonly) bool initialized;
+@property (readwrite) bool initialized;
 
 @property (readwrite) NSString *filename;
 

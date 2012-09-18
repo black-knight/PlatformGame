@@ -24,6 +24,9 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "Stage.h"
+#import "TilesLayer.h"
+
+#define LAYER_TILES 0
 
 @implementation Stage
 
@@ -35,9 +38,7 @@
 }
 
 - (void) initialize {
-    for (int i = 0; i < LAYER_COUNT; i++) {
-        layer[i] = [[Layer alloc] init];
-    }
+    layer[LAYER_TILES] = [[TilesLayer alloc] init];
     hero = [[HeroCharacter alloc] init];
 }
 
