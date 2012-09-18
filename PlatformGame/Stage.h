@@ -25,4 +25,7 @@
 
 @interface Stage : NSObject
 
+- (void) update;
+- (void) render;
+
 @end

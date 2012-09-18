@@ -27,4 +27,10 @@
 
 @implementation Layer
 
+- (void) update {
+}
+
+- (void) render {
+}
+
 @end
