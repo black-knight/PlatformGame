@@ -33,6 +33,9 @@ typedef struct {
     float x2, y2, z2;
     float x3, y3, z3;
     float x4, y4, z4;
+    float texCoordX1, texCoordY1;
+    float texCoordX2, texCoordY2;
+    bool texCoordDefined;
 } Quad;
 
 @interface Quads : NSObject {
@@ -64,10 +67,12 @@ typedef struct {
 - (void) end;
 
 - (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height;
+- (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height texCoordX1:(float)texCoordX1 texCoordY1:(float)texCoordY1 texCoordX2:(float)texCoordX2 texCoordY2:(float)texCoordY2;
 - (void) addQuadX1:(float)x1 y1:(float)y1 x2:(float)x2 y2:(float)y2 x3:(float)x3 y3:(float)y3 x4:(float)x4 y4:(float)y4;
 - (void) addQuadX1:(float)x1 y1:(float)y1 z1:(float)z1 x2:(float)x2 y2:(float)y2 z2:(float)z2 x3:(float)x3 y3:(float)y3 z3:(float)z3 x4:(float)x4 y4:(float)y4 z4:(float)z4;
 
 - (void) render;
+- (void) renderSingleQuad:(int)index;
 
 @property (readwrite) GLKVector4 color;
 @property (readwrite) GLKVector4 backgroundColor;

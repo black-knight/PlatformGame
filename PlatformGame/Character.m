@@ -30,6 +30,14 @@
 @synthesize position;
 @synthesize velocity;
 
+- (id) init {
+    if (self = [super init]) {
+        position = GLKVector2Make(0.0f, 0.0f);
+        velocity = GLKVector2Make(0.0f, 0.0f);
+    }
+    return self;
+}
+
 - (void) update {
 }
 

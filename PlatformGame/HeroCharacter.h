@@ -24,8 +24,22 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "MoveableCharacter.h"
+#import "Texture.h"
+#import "Quads.h"
 
-@interface HeroCharacter : MoveableCharacter
+#define PLAYER_QUADS_COUNT 2
+
+#define PLAYER_SCALE (1.0f / 512.0f)
+#define PLAYER_PIXEL_WIDTH 64
+#define PLAYER_PIXEL_HEIGHT 64
+
+@interface HeroCharacter : MoveableCharacter {
+
+@private
+    
+    Texture *playerTexture;
+    Quads *playerQuads;
+}
 
 - (void) update;
 - (void) render;

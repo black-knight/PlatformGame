@@ -24,8 +24,44 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "HeroCharacter.h"
+#import "Globals.h"
 
 @implementation HeroCharacter
+
+- (id) init {
+    if (self = [super init]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (void) initialize {
+    playerTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLAYER];
+    [playerTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
+    [self createQuads];
+}
+
+- (void) createQuads {
+    playerQuads = [[Quads alloc] initWithTexture:playerTexture];
+
+    float width = PLAYER_SCALE * PLAYER_PIXEL_WIDTH;
+    float height = PLAYER_SCALE * PLAYER_PIXEL_HEIGHT;
+
+    int numPerRow = 2;
+    
+    for (int i = 0; i < PLAYER_QUADS_COUNT; i++) {
+        int x = i % numPerRow;
+        int y = i / numPerRow;
+        
+        float texCoordX1 = x * PLAYER_PIXEL_WIDTH / playerTexture.width;
+        float texCoordY1 = y * PLAYER_PIXEL_HEIGHT / playerTexture.height;
+        float texCoordX2 = texCoordX1 + PLAYER_PIXEL_WIDTH / playerTexture.width;
+        float texCoordY2 = texCoordY1 + PLAYER_PIXEL_HEIGHT / playerTexture.height;
+
+	    [playerQuads addQuadX:0.0f y:0.0f width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
+    }
+    [playerQuads end];
+}
 
 - (void) update {
     [super update];
@@ -33,6 +69,8 @@
 
 - (void) render {
     [super render];
+    playerQuads.translation = GLKVector3Make(0.5f, 0.5f, 0.0f);
+    [playerQuads renderSingleQuad:0];
 }
 
 @end

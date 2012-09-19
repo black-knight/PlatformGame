@@ -27,6 +27,7 @@
 #import "Texture.h"
 
 #define TEXTURE_TILES_PLATFORM 0
+#define TEXTURE_TILES_PLAYER 1
 
 @interface TextureLoader : NSObject {
 

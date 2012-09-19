@@ -141,11 +141,12 @@ enum {
     screenWidthNoScale = [UIScreen mainScreen].bounds.size.width;
     screenHeightNoScale = [UIScreen mainScreen].bounds.size.height;
     
-    aspectRatio = fabsf(MIN(screenWidth, screenHeight) / MAX(screenWidth, screenHeight));
     aspectRatioX = MIN(1.0f, fabsf(screenWidth / screenHeight));
     aspectRatioY = MIN(1.0f, fabsf(screenHeight / screenWidth));
-    
+    aspectRatio = MIN(aspectRatioX, aspectRatioY);
+
     NSLog(@"Screen size: %i, %i", (int) screenWidth, (int) screenHeight);
+    NSLog(@"Aspect ratio: %f, %f", aspectRatioX, aspectRatioY);
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods

@@ -32,6 +32,11 @@
 
 #define GLSL_PROGRAM_COUNT 1
 
+typedef struct {
+    GLKVector2 velocity;
+    float rotation;
+} GRAVITY;
+
 float screenWidth;
 float screenHeight;
 float screenWidthNoScale;
@@ -56,5 +61,7 @@ GLuint currentShaderProgram;
 GLuint uniformModelViewProjectionMatrix;
 
 extern int textureAtLeastSize(int size);
+
+GRAVITY gravity;
 
 #endif

@@ -16,6 +16,7 @@
 		65777B5F16087F9C0087A3CD /* Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5E16087F9B0087A3CD /* Texture.m */; };
 		65777B621608F13A0087A3CD /* TilesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B611608F13A0087A3CD /* TilesLayer.m */; };
 		65777B651608F76C0087A3CD /* Quads.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B641608F76C0087A3CD /* Quads.m */; };
+		65777B691609E6960087A3CD /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 65777B681609E6960087A3CD /* player.png */; };
 		65C00E1D160727EF00E293B3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1C160727EF00E293B3 /* UIKit.framework */; };
 		65C00E1F160727EF00E293B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E1E160727EF00E293B3 /* Foundation.framework */; };
 		65C00E21160727EF00E293B3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C00E20160727EF00E293B3 /* CoreGraphics.framework */; };
@@ -53,6 +54,7 @@
 		65777B611608F13A0087A3CD /* TilesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TilesLayer.m; sourceTree = "<group>"; };
 		65777B631608F76C0087A3CD /* Quads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quads.h; sourceTree = "<group>"; };
 		65777B641608F76C0087A3CD /* Quads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quads.m; sourceTree = "<group>"; };
+		65777B681609E6960087A3CD /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		65C00E18160727EF00E293B3 /* PlatformGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C00E1C160727EF00E293B3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		65C00E1E160727EF00E293B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -94,6 +96,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65777B661609E6960087A3CD /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				65777B671609E6960087A3CD /* player */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
+		65777B671609E6960087A3CD /* player */ = {
+			isa = PBXGroup;
+			children = (
+				65777B681609E6960087A3CD /* player.png */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
 		65C00E0D160727EF00E293B3 = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +193,7 @@
 		65C00E441607292C00E293B3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				65777B661609E6960087A3CD /* objects */,
 				65C00E451607292C00E293B3 /* tiles */,
 			);
 			path = Images;
@@ -254,6 +273,7 @@
 				65C00E3B160727EF00E293B3 /* ViewController_iPhone.xib in Resources */,
 				65C00E3E160727EF00E293B3 /* ViewController_iPad.xib in Resources */,
 				65C00E471607292C00E293B3 /* platforms.png in Resources */,
+				65777B691609E6960087A3CD /* player.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
