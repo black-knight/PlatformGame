@@ -28,6 +28,8 @@
 
 #import "TextureLoader.h"
 
+#define BUFFER_OFFSET(i) ((char *)NULL + (i * sizeof(GLfloat)))
+
 #define GLSL_PROGRAM_COUNT 1
 
 float screenWidth;

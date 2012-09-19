@@ -28,8 +28,6 @@
 
 @implementation TilesLayer
 
-bool firstTimeRender = true;
-
 - (id) init {
     if (self = [super init]) {
         [self initialize];
@@ -39,128 +37,118 @@ bool firstTimeRender = true;
 
 - (void) dealloc {
     NSLog(@"Releasing layer");
-    glDeleteFramebuffers(1, &offscreenFramebuffer);
-    glDeleteRenderbuffers(1, &offscreenDepthBuffer);
-    [offscreenTexture releaseTexture];
 }
 
 - (void) initialize {
     NSLog(@"Initializing tiles layer");
-    [self createFramebuffer];
-    [self createOffscreenQuad];
-    [self createTiles];
+    position = GLKVector2Make(0.0f, 0.0f);
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            bricks[i][j].type = 0;//(i+j)%40;
+            tiles[i][j].type = 0;
         }
     }
-    bricks[0][0].type = 1;
-    bricks[0][1].type = 2;
-    bricks[0][2].type = 3;
-    bricks[1][0].type = 5;
-    bricks[1][1].type = 6;
-    bricks[1][2].type = 7;
+    tiles[1][0].type = 0;
+    tiles[1][1].type = 1;
+    tiles[1][2].type = 3;
+    tiles[2][0].type = 4;
+    tiles[2][1].type = 5;
+    tiles[2][2].type = 7;
+    tiles[3][0].type = 4;
+    tiles[3][1].type = 5;
+    tiles[3][2].type = 7;
+    [self createTileMap];
 }
 
-- (void) createFramebuffer {
-    offscreenTexture = [[Texture alloc] init];
+- (void) createTileMap {
+    tilesTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLATFORM];
 
-    offscreenTexture.width = textureAtLeastSize(screenWidthNoScale);
-    offscreenTexture.height = textureAtLeastSize(screenHeightNoScale);
-    
-    [offscreenTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
-    
-    GLint oldFramebuffer;
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFramebuffer);
-    
-    GLuint textureId;
-    glGenFramebuffers(1, &offscreenFramebuffer);
-    glGenTextures(1, &textureId); offscreenTexture.texId = textureId;
-    glGenRenderbuffers(1, &offscreenDepthBuffer);
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, offscreenFramebuffer);
-    
-    glBindTexture(GL_TEXTURE_2D, offscreenTexture.texId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, offscreenTexture.width, offscreenTexture.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, offscreenTexture.texId, 0);
-    
-    glBindRenderbuffer(GL_RENDERBUFFER, offscreenDepthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, offscreenTexture.width, offscreenTexture.height);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, offscreenDepthBuffer);
-    
-    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if (status != GL_FRAMEBUFFER_COMPLETE) {
-        NSLog(@"Failed to create framebuffer object: %x", status);
-        exit(-1);
+    for (int i = 0; i < MAP_HEIGHT / TILE_MAP_BLOCK_SIZE; i++) {
+        for (int j = 0; j < MAP_WIDTH / TILE_MAP_BLOCK_SIZE; j++) {
+            [self createTileBlockX:j y:i];
+        }
     }
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, oldFramebuffer);
-
-    offscreenTexture.initialized = true;
+    [self generateTileBlockVertexArray];
 }
 
-- (void) createOffscreenQuad {
-    offscreenQuad = [[Quads alloc] initWithTexture:offscreenTexture];
-	[offscreenQuad addQuadX:0.0f y:0.0f width:aspectRatioX height:aspectRatioY];
-    [offscreenQuad end];
-}
-
-- (void) createTiles {
-    Texture *tilesTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLATFORM];
-
+- (void) createTileBlockX:(int)blockX y:(int)blockY {
     int tilesPerRow = 4;
-    for (int i = 0; i < TILE_COUNT; i++) {
-        float x = ((i % tilesPerRow) * TILE_WIDTH) / tilesTexture.width;
-        float y = ((i / tilesPerRow) * TILE_HEIGHT) / tilesTexture.height;
+    int v = 0;
+    for (int i = 0; i < TILE_MAP_BLOCK_SIZE; i++) {
+        for (int j = 0; j < TILE_MAP_BLOCK_SIZE; j++) {
+            char tile = tiles[blockY * TILE_MAP_BLOCK_SIZE + i][blockX * TILE_MAP_BLOCK_SIZE + j].type;
 
-        tileTexture[i] = [[Texture alloc] init];
-        [tileTexture[i] setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
-        tileTexture[i].texId = tilesTexture.texId;
-        tileTexture[i].texCoordX1 = x;
-        tileTexture[i].texCoordY1 = y;
-        tileTexture[i].texCoordX2 = x + (TILE_WIDTH / tilesTexture.width);
-        tileTexture[i].texCoordY2 = y + (TILE_HEIGHT / tilesTexture.height);
-        tileTexture[i].initialized = false; // No releasing of the texture
-
-        tileQuad[i] = [[Quads alloc] initWithTexture:tileTexture[i]];
-        [tileQuad[i] addQuadX:0.0f y:0.0f width:MAP_SCALE height:MAP_SCALE];
-        [tileQuad[i] end];
+            float texCoordX1 = ((tile % tilesPerRow) * TILE_WIDTH) / tilesTexture.width;
+            float texCoordY1 = ((tile / tilesPerRow) * TILE_HEIGHT) / tilesTexture.height;
+            float texCoordX2 = texCoordX1 + (TILE_WIDTH / tilesTexture.width);
+            float texCoordY2 = texCoordY1 + (TILE_HEIGHT / tilesTexture.height);
+            
+            float x1 = (j + blockX * TILE_MAP_BLOCK_SIZE) * MAP_SCALE;
+            float y1 = -(i + blockY * TILE_MAP_BLOCK_SIZE) * MAP_SCALE + aspectRatioX;
+            float x2 = x1 + MAP_SCALE;
+            float y2 = y1 + MAP_SCALE;
+            
+            // Triangle 1
+            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
+            v += 5;
+            
+            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
+            v += 5;
+            
+            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
+            v += 5;
+            
+            // Triangle 2
+            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
+            v += 5;
+            
+            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
+            v += 5;
+            
+            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
+            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
+            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
+            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
+            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
+            v += 5;
+        }
     }
 }
 
-- (void) renderTilesOffscreen {
-    //NSLog(@"Rendering offscreen!");
+- (void) generateTileBlockVertexArray {
+    glGenVertexArraysOES(1, &tileMapVertexArray);
+    glBindVertexArrayOES(tileMapVertexArray);
     
-    GLint oldFramebuffer;
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFramebuffer);
+    glGenBuffers(1, &tileMapVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, tileMapVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(tileMapBlockVertices), tileMapBlockVertices, GL_STATIC_DRAW);
     
-    GLint oldViewport[4];
-    glGetIntegerv(GL_VIEWPORT, oldViewport);
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(0));
     
-    glBindFramebuffer(GL_FRAMEBUFFER, offscreenFramebuffer);
+    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(3));
     
-    glViewport(0, 0, offscreenTexture.width, offscreenTexture.height);
-    
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        for (int j = 0; j < MAP_WIDTH; j++) {
-            char brickType = bricks[i][j].type;
-            if (brickType == 0) {
-                continue;
-            }
-            [tileQuad[brickType - 1] setTranslation:GLKVector3Make(j * MAP_SCALE, i * MAP_SCALE, 0.0f)];
-            [tileQuad[brickType - 1] render];
-        }
-    }
-
-    glBindFramebuffer(GL_FRAMEBUFFER, oldFramebuffer);
-    glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
+    glBindVertexArrayOES(0);
 }
 
 - (void) update {
@@ -169,11 +157,37 @@ bool firstTimeRender = true;
 
 - (void) render {
     [super render];
-    //if (firstTimeRender) {
-        [self renderTilesOffscreen];
-        firstTimeRender = false;
-    //}
-    [offscreenQuad render];
+    [self renderTileMap];
+}
+
+- (void) renderTileMap {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glkEffect.texture2d0.name = tilesTexture.texId;
+    glkEffect.texture2d0.enabled = GL_TRUE;
+    
+    glkEffect.useConstantColor = YES;
+    glkEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
+    
+    glkEffect.transform.modelviewMatrix = GLKMatrix4Translate(sceneModelViewMatrix, position.x, position.y, 0.0f);
+    glkEffect.transform.projectionMatrix = sceneProjectionMatrix;
+    
+    [glkEffect prepareToDraw];
+
+    int countX = 2;
+    int countY = 2;
+
+    for (int i = 0; i < countY; i++) {
+        for (int j = 0; j < countX; j++) {
+            int startOffset = ((i * (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)) + j) * 6 * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE;
+            glBindVertexArrayOES(tileMapVertexArray);
+            glDrawArrays(GL_TRIANGLES, startOffset, 6 * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE);
+        }
+    }
+}
+
+- (void) renderTileBlockX:(int)x y:(int)y {
 }
 
 @end

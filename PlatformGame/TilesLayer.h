@@ -35,23 +35,29 @@
 #define MAP_HEIGHT 32
 #define MAP_SCALE (1.0f / 4.0f)
 
+#define TILE_MAP_BLOCK_SIZE 2
+#define TILE_MAP_WIDTH (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)
+#define TILE_MAP_HEIGHT (MAP_HEIGHT / TILE_MAP_BLOCK_SIZE)
+#define TILE_MAP_VERTICES_COUNT (TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE * 6 * 5)
+
 typedef struct {
     char type;
-} BRICK;
+} TILE;
 
 @interface TilesLayer : Layer {
 
 @private
 
-	BRICK bricks[MAP_HEIGHT][MAP_WIDTH];
+	TILE tiles[MAP_HEIGHT][MAP_WIDTH];
 
-    Quads *offscreenQuad;
-    Texture *offscreenTexture;
-    GLuint offscreenFramebuffer;
-    GLuint offscreenDepthBuffer;
+    GLfloat tileMapBlockVertices[TILE_MAP_HEIGHT][TILE_MAP_WIDTH][TILE_MAP_VERTICES_COUNT];
+    
+    GLuint tileMapVertexArray;
+    GLuint tileMapVertexBuffer;
 
-    Quads *tileQuad[TILE_COUNT];
-    Texture *tileTexture[TILE_COUNT];
+    Texture *tilesTexture;
+    
+    GLKVector2 position;
 }
 
 @end

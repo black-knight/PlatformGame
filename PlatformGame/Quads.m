@@ -26,8 +26,6 @@
 #import "Quads.h"
 #import "Globals.h"
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i * sizeof(GLfloat)))
-
 @implementation Quads
 
 @synthesize color;
@@ -106,21 +104,21 @@
         vertices[v + 2] = quads[i].z1;
         vertices[v + 3] = texture.texCoordX2;
         vertices[v + 4] = texture.texCoordY2;
-        v += 8;
+        v += 5;
         
         vertices[v + 0] = quads[i].x2;
         vertices[v + 1] = quads[i].y2;
         vertices[v + 2] = quads[i].z2;
         vertices[v + 3] = texture.texCoordX2;
         vertices[v + 4] = texture.texCoordY1;
-        v += 8;
+        v += 5;
         
         vertices[v + 0] = quads[i].x3;
         vertices[v + 1] = quads[i].y3;
         vertices[v + 2] = quads[i].z3;
         vertices[v + 3] = texture.texCoordX1;
         vertices[v + 4] = texture.texCoordY1;
-        v += 8;
+        v += 5;
         
         // Triangle 2
         vertices[v + 0] = quads[i].x3;
@@ -128,21 +126,21 @@
         vertices[v + 2] = quads[i].z3;
         vertices[v + 3] = texture.texCoordX1;
         vertices[v + 4] = texture.texCoordY1;
-        v += 8;
+        v += 5;
         
         vertices[v + 0] = quads[i].x4;
         vertices[v + 1] = quads[i].y4;
         vertices[v + 2] = quads[i].z4;
         vertices[v + 3] = texture.texCoordX1;
         vertices[v + 4] = texture.texCoordY2;
-        v += 8;
+        v += 5;
         
         vertices[v + 0] = quads[i].x1;
         vertices[v + 1] = quads[i].y1;
         vertices[v + 2] = quads[i].z1;
         vertices[v + 3] = texture.texCoordX2;
         vertices[v + 4] = texture.texCoordY2;
-        v += 8;
+        v += 5;
     }
 }
 
@@ -155,17 +153,14 @@
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), BUFFER_OFFSET(0));
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(0));
     
     if (textureToggled) {
         glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), BUFFER_OFFSET(3));
+        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(3));
     } else {
         glDisableVertexAttribArray(GLKVertexAttribTexCoord0);
     }
-    
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), BUFFER_OFFSET(5));
     
     glBindVertexArrayOES(0);
 }
