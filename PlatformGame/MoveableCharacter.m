@@ -24,8 +24,17 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "MoveableCharacter.h"
+#import "ScreenInfo.h"
 
 @implementation MoveableCharacter
+
+- (id) init {
+    if (self = [super init]) {
+        rotation = 0.0f;
+        onGround = true;
+    }
+    return self;
+}
 
 - (void) update {
     [super update];

@@ -61,6 +61,17 @@ TILE TILE_EMPTY = {.type = 31};
     tiles[6][6].type = 14;
     tiles[6][7].type = 13;
     tiles[6][8].type = 15;
+
+    tiles[10][1].type = 0;
+    tiles[10][2].type = 1;
+    tiles[10][3].type = 2;
+    tiles[10][4].type = 1;
+    tiles[10][5].type = 3;
+    tiles[11][1].type = 12;
+    tiles[11][2].type = 13;
+    tiles[11][3].type = 14;
+    tiles[11][4].type = 13;
+    tiles[11][5].type = 15;
     [self createTileMap];
 }
 
@@ -105,6 +116,13 @@ TILE TILE_EMPTY = {.type = 31};
     return tile.type != TILE_EMPTY.type;
 }
 
+- (float) angleAt:(GLKVector2)p {
+    if (![self collisionAt:p]) {
+        return 0.0f;
+    }
+    return 0.0f; // TODO!
+}
+
 - (TILE) tileAtX:(int)x y:(int)y {
     return x >= 0 && y >= 0 && x < MAP_WIDTH && y < MAP_HEIGHT ? tiles[y][x] : emptyTile;
 }
@@ -121,7 +139,6 @@ TILE TILE_EMPTY = {.type = 31};
 - (void) renderTileMap {
     int countX = 4;
     int countY = 4;
-
     for (int i = 0; i < countY; i++) {
         for (int j = 0; j < countX; j++) {
             int start = ((i * (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)) + j) * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE;

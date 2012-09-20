@@ -25,7 +25,13 @@
 
 #import "Character.h"
 
-@interface MoveableCharacter : Character
+@interface MoveableCharacter : Character {
+
+@protected
+
+    float rotation;
+    bool onGround;
+}
 
 - (void) update;
 - (void) render;

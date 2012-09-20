@@ -42,12 +42,19 @@ ScreenInfo *screenInfo;
 
 @synthesize rotation;
 
+- (id) init {
+    if (self = [super init]) {
+        rotation = M_PI_2;
+    }
+    return self;
+}
+
 - (float) coordX:(float)x {
-    return x * WORLD_SCALE * aspectRatioX;
+    return x * WORLD_SCALE * aspectRatioY;
 }
 
 - (float) coordY:(float)y {
-    return y * WORLD_SCALE * aspectRatioY;
+    return y * WORLD_SCALE * aspectRatioX;
 }
 
 - (float) objectWidth:(float)w {
@@ -59,11 +66,11 @@ ScreenInfo *screenInfo;
 }
 
 - (float) objectWidth:(float)w scale:(float)scale {
-    return w * WORLD_SCALE * aspectRatioX * scale;
+    return w * WORLD_SCALE * aspectRatioY * scale;
 }
 
 - (float) objectHeight:(float)h scale:(float)scale {
-    return h * WORLD_SCALE * aspectRatioY * scale;
+    return h * WORLD_SCALE * aspectRatioX * scale;
 }
 
 @end

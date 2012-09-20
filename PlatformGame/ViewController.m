@@ -62,7 +62,7 @@ enum {
 }
 
 - (void) acceleratedInX:(float)x Y:(float)y Z:(float)z {
-    screenInfo.rotation = atan2(x, y);
+    //screenInfo.rotation = atan2(x, y);
 }
 
 - (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
@@ -117,6 +117,11 @@ enum {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+}
+
+- (void) handleTapFrom:(UITapGestureRecognizer*)recognizer {
+    CGPoint touchLocation = [recognizer locationInView:recognizer.view];
+    screenInfo.rotation += touchLocation.x / [screenInfo heightNoScale] < 0.5f ? 0.1f : -0.1f;
 }
 
 - (void)setupGL {

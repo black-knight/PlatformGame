@@ -32,6 +32,10 @@
     return GLKVector2Add(position, force);
 }
 
++ (GLKVector2) addForceToVelocity:(GLKVector2)velocity force:(GLKVector2)force {
+    return GLKVector2Add(velocity, force);
+}
+
 + (GLKVector2) addForceToVelocity:(GLKVector2)velocity force:(GLKVector2)force max:(float)max {
     GLKVector2 newVelocity = GLKVector2Add(velocity, force);
     if (GLKVector2Length(newVelocity) > max) {
@@ -41,8 +45,37 @@
     }
 }
 
++ (GLKVector2) dampenVelocity:(GLKVector2)velocity factor:(float)factor {
+    return GLKVector2MultiplyScalar(velocity, 1.0f - factor);
+}
+
++ (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity max:(float)max {
+    if (GLKVector2Length(velocity) > max) {
+        return GLKVector2MultiplyScalar(GLKVector2Normalize(velocity), max);
+    } else {
+        return velocity;
+    }
+}
+
++ (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity maxX:(float)maxX maxY:(float)maxY {
+    velocity.x = MAX(MIN(velocity.x, maxX), -maxX);
+    velocity.y = MAX(MIN(velocity.y, maxY), -maxY);
+    return velocity;
+}
+
++ (GLKVector2) rotationVector {
+    return GLKVector2Make(cos(screenInfo.rotation), sin(screenInfo.rotation));
+}
+
 + (GLKVector2) gravityInRotation {
     return GLKVector2Make(cos(screenInfo.rotation) * GRAVITY, sin(screenInfo.rotation) * GRAVITY);
+}
+
++ (float) angleDistanceFrom:(float)a1 to:(float)a2 {
+    if (ABS(a1 - a2) > M_PI) {
+        a1 += (a1 < a2 ? M_PI : -M_PI) * 2.0f;
+    }
+    return a2 - a1;
 }
 
 @end

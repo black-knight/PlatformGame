@@ -60,5 +60,6 @@ extern TILE TILE_EMPTY;
 }
 
 - (bool) collisionAt:(GLKVector2)p;
+- (float) angleAt:(GLKVector2)p;
 
 @end

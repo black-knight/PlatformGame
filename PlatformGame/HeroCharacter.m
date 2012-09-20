@@ -43,6 +43,8 @@
     playerTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLAYER];
     [playerTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
     [self createQuads];
+
+    onGround = false;
 }
 
 - (void) createQuads {
@@ -62,34 +64,66 @@
         float texCoordX2 = texCoordX1 + PLAYER_PIXEL_WIDTH / playerTexture.width;
         float texCoordY2 = texCoordY1 + PLAYER_PIXEL_HEIGHT / playerTexture.height;
 
-	    [playerQuads addQuadX:0.0f y:0.0f width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
+	    [playerQuads addQuadX:-[screenInfo objectWidth:PLAYER_SCALE] / 2.0f y:-[screenInfo objectHeight:PLAYER_SCALE] width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
     }
     [playerQuads end];
 }
 
 - (void) update {
     [super update];
+    [self updateGroundInfo];
+    [self calculateVelocity];
+    //NSLog(@"%f, %f vs %f, %f", position.x, position.y, velocity.x, velocity.y);
     [self applyVelocity];
+    [self calculatePlayerRotation];
+}
+
+- (void) updateGroundInfo {
+    groundPosition = GLKVector2Add(position, GLKVector2MultiplyScalar([Physics rotationVector], PLAYER_COLLISION_CHECK_DISTANCE));
+    //NSLog(@"%f, %f vs %f, %f", groundPosition.x, groundPosition.y, position.x, position.y);
+    onGround = [self solidBetweenP1:position p2:groundPosition];
 }
 
 - (void) applyVelocity {
-    [self calculateVelocity];
     GLKVector2 proposedPosition = [Physics addForceToPosition:position force:velocity];
-    if ([self hasSolidBetweenP1:position p2:proposedPosition]) {
+    //NSLog(@"%i - %f, %f vs %f, %f", [self solidBetweenP1:position p2:proposedPosition], position.x, position.y, proposedPosition.x, proposedPosition.y);
+    /*if ([self solidBetweenP1:position p2:proposedPosition]) {
         velocity = GLKVector2Make(0.0f, 0.0f);
-        return;
-    } else {
-	    position = proposedPosition;
-    }
+        proposedPosition = [self lastPositionBeforeFirstSolidBetweenP1:position p2:proposedPosition];
+    }*/
+    position = proposedPosition;
 }
 
 - (void) calculateVelocity {
-    velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation] max:PLAYER_MAX_SPEED];
+    if (onGround) {
+        velocity.y = 0.0f;
+        [self calculateGroundVelocity];
+    } else {
+        velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation]];
+    }
+    velocity = [Physics dampenVelocity:velocity factor:PLAYER_VELOCITY_DAMPEN];
+    velocity = [Physics restrictVelocityToMax:velocity maxX:PLAYER_MAX_SPEED_X maxY:PLAYER_MAX_SPEED_Y];
 }
 
-- (bool) hasSolidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
-    for (int i = 0; i < PLAYER_COLLISION_CHECK_COUNT; i++) {
-        GLKVector2 p = GLKVector2Add(p1, GLKVector2Subtract(p2, p1));
+- (void) calculateGroundVelocity {
+    float groundAngle = [stageInfo.tilesLayer angleAt:groundPosition];
+    //NSLog(@"%f, %f", rotation, groundAngle);
+    if (ABS(rotation - groundAngle) < PLAYER_GROUND_SLIP_ANGLE) {
+        return;
+    }
+    groundAngle += [Physics angleDistanceFrom:rotation to:groundAngle] < 0.0f ? M_PI : 0.0f;
+    float slipForce = PLAYER_GROUND_SLIP_SPEED;// * (ABS(rotation - groundAngle) - PLAYER_GROUND_SLIP_ANGLE);
+    //NSLog(@"%f, %f", rotation, groundAngle);
+    velocity = [Physics addForceToVelocity:velocity force:GLKVector2Make(cos(groundAngle) * slipForce, sin(groundAngle) * slipForce)];
+}
+
+- (void) calculatePlayerRotation {
+    rotation = screenInfo.rotation - M_PI_2;
+}
+
+- (bool) solidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
+    for (int i = 0; i <= PLAYER_COLLISION_CHECK_COUNT; i++) {
+        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), (float) i / (float) PLAYER_COLLISION_CHECK_COUNT));
         if ([stageInfo.tilesLayer collisionAt:p]) {
             return true;
         }
@@ -97,11 +131,22 @@
     return false;
 }
 
+- (GLKVector2) lastPositionBeforeFirstSolidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
+    GLKVector2 oldP = p1;
+    for (int i = 0; i <= PLAYER_COLLISION_CHECK_COUNT; i++) {
+        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), (float) i / (float) PLAYER_COLLISION_CHECK_COUNT));
+        if ([stageInfo.tilesLayer collisionAt:p]) {
+            return oldP;
+        }
+        oldP = p;
+    }
+    return p1;
+}
+
 - (void) render {
     [super render];
-    float x = [screenInfo coordX:position.x] - ([screenInfo objectWidth:1.0f scale:PLAYER_SCALE] / 2.0f);
-    float y = [screenInfo coordY:position.y] - [screenInfo objectHeight:1.0f scale:PLAYER_SCALE];
-    playerQuads.translation = GLKVector3Make(x, y, 0.0f);
+    playerQuads.translation = GLKVector3Make([screenInfo coordX:position.x], [screenInfo coordY:position.y], 0.0f);
+    playerQuads.rotation = GLKVector3Make(0.0f, 0.0f, rotation);
     [playerQuads renderSingleQuad:0];
 }
 

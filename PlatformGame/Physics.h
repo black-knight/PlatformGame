@@ -30,8 +30,16 @@
 @interface Physics : NSObject
 
 + (GLKVector2) addForceToPosition:(GLKVector2)position force:(GLKVector2)force;
++ (GLKVector2) addForceToVelocity:(GLKVector2)velocity force:(GLKVector2)force;
 + (GLKVector2) addForceToVelocity:(GLKVector2)velocity force:(GLKVector2)force max:(float)max;
 
++ (GLKVector2) dampenVelocity:(GLKVector2)velocity factor:(float)factor;
++ (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity max:(float)max;
++ (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity maxX:(float)maxX maxY:(float)maxY;
+
++ (GLKVector2) rotationVector;
 + (GLKVector2) gravityInRotation;
+
++ (float) angleDistanceFrom:(float)a1 to:(float)a2;
 
 @end
