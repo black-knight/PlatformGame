@@ -28,7 +28,7 @@
 
 #import <GLKit/GLKit.h>
 
-#define MAP_SCALE (1.0f / 8.0f)
+#define WORLD_SCALE (1.0f / 12.0f)
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i * sizeof(GLfloat)))
 
@@ -38,15 +38,6 @@ typedef struct {
     GLKVector2 velocity;
     float rotation;
 } GRAVITY;
-
-float screenWidth;
-float screenHeight;
-float screenWidthNoScale;
-float screenHeightNoScale;
-
-float aspectRatio;
-float aspectRatioX;
-float aspectRatioY;
 
 GLKMatrix4 sceneModelViewMatrix;
 GLKMatrix4 sceneProjectionMatrix;
@@ -61,11 +52,6 @@ GLuint currentShaderProgram;
 GLuint uniformModelViewProjectionMatrix;
 
 GRAVITY gravity;
-
-extern float screenCoordX(float x);
-extern float screenCoordY(float y);
-extern float objectScreenWidth(float width);
-extern float objectScreenHeight(float height);
 
 extern int textureAtLeastSize(int size);
 

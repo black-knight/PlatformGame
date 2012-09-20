@@ -26,6 +26,7 @@
 #import "Game.h"
 #import "Globals.h"
 #import "TextureLoader.h"
+#import "ScreenInfo.h"
 
 #define FRAME_RATE ((1000.0f / 60.0f) / 1000.0f)
 
@@ -67,14 +68,12 @@
 }
 
 - (void) setupView {
-    sceneProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, aspectRatioX, 0.0f, aspectRatioY, -1.0f, 1.0f);
+    sceneProjectionMatrix = GLKMatrix4MakeOrtho(0.0f, screenInfo.aspectRatioX, screenInfo.aspectRatioY, 0.0f, -1.0f, 1.0f);
     sceneModelViewMatrix = GLKMatrix4Identity;
 }
 
 - (void) render {
     glDisable(GL_DEPTH_TEST);
-    glClearColor(0.2f, 0.4f, 0.2f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     [stage render];
 }
 

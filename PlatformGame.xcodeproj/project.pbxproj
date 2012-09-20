@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65386878160B221300C88E94 /* ScreenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 65386877160B221300C88E94 /* ScreenInfo.m */; };
 		65777B4C1607AB6D0087A3CD /* Stage.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4B1607AB6D0087A3CD /* Stage.m */; };
 		65777B501607AB960087A3CD /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4F1607AB960087A3CD /* Layer.m */; };
 		65777B5316085FAB0087A3CD /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5216085FAB0087A3CD /* Character.m */; };
@@ -36,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65386876160B221300C88E94 /* ScreenInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenInfo.h; sourceTree = "<group>"; };
+		65386877160B221300C88E94 /* ScreenInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenInfo.m; sourceTree = "<group>"; };
 		65777B4A1607AB6D0087A3CD /* Stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stage.h; sourceTree = "<group>"; };
 		65777B4B1607AB6D0087A3CD /* Stage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stage.m; sourceTree = "<group>"; };
 		65777B4E1607AB960087A3CD /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				65777B5E16087F9B0087A3CD /* Texture.m */,
 				65777B631608F76C0087A3CD /* Quads.h */,
 				65777B641608F76C0087A3CD /* Quads.m */,
+				65386876160B221300C88E94 /* ScreenInfo.h */,
+				65386877160B221300C88E94 /* ScreenInfo.m */,
 			);
 			path = PlatformGame;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 				65777B5F16087F9C0087A3CD /* Texture.m in Sources */,
 				65777B621608F13A0087A3CD /* TilesLayer.m in Sources */,
 				65777B651608F76C0087A3CD /* Quads.m in Sources */,
+				65386878160B221300C88E94 /* ScreenInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

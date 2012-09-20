@@ -187,7 +187,7 @@
 }
 
 - (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height {
-    [self addQuadX1:x + width y1:y x2:x + width y2:y + height x3:x y3:y + height x4:x y4:y];
+    [self addQuadX1:x + width y1:y + height x2:x + width y2:y x3:x y3:y x4:x y4:y + height];
 }
 
 - (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height texCoordX1:(float)texCoordX1 texCoordY1:(float)texCoordY1 texCoordX2:(float)texCoordX2 texCoordY2:(float)texCoordY2 {

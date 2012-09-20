@@ -29,7 +29,7 @@
 
 #define PLAYER_QUADS_COUNT 2
 
-#define PLAYER_SCALE (1.0f / 512.0f)
+#define PLAYER_SCALE 1.0f
 #define PLAYER_PIXEL_WIDTH 64
 #define PLAYER_PIXEL_HEIGHT 64
 

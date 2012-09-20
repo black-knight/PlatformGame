@@ -26,6 +26,7 @@
 #import "ViewController.h"
 #import "Game.h"
 #import "Globals.h"
+#import "ScreenInfo.h"
 
 enum {
     ATTRIB_VERTEX,
@@ -62,6 +63,8 @@ enum {
 
 - (void) viewDidLoad {
     [super viewDidLoad];
+    
+    screenInfo = [[ScreenInfo alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -135,18 +138,18 @@ enum {
 }
 
 - (void) getScreenSize {
-    screenWidth = [UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale;
-    screenHeight = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
+    screenInfo.width = [UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale;
+    screenInfo.height = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
 
-    screenWidthNoScale = [UIScreen mainScreen].bounds.size.width;
-    screenHeightNoScale = [UIScreen mainScreen].bounds.size.height;
+    screenInfo.widthNoScale = [UIScreen mainScreen].bounds.size.width;
+    screenInfo.heightNoScale = [UIScreen mainScreen].bounds.size.height;
     
-    aspectRatioX = MIN(1.0f, fabsf(screenWidth / screenHeight));
-    aspectRatioY = MIN(1.0f, fabsf(screenHeight / screenWidth));
-    aspectRatio = MIN(aspectRatioX, aspectRatioY);
+    screenInfo.aspectRatioX = MIN(1.0f, fabsf(screenInfo.width / screenInfo.height));
+    screenInfo.aspectRatioY = MIN(1.0f, fabsf(screenInfo.height / screenInfo.width));
+    screenInfo.aspectRatio = MIN(screenInfo.aspectRatioX, screenInfo.aspectRatioY);
 
-    NSLog(@"Screen size: %i, %i", (int) screenWidth, (int) screenHeight);
-    NSLog(@"Aspect ratio: %f, %f", aspectRatioX, aspectRatioY);
+    NSLog(@"Screen size: %i, %i", (int) screenInfo.width, (int) screenInfo.height);
+    NSLog(@"Aspect ratio: %f, %f", screenInfo.aspectRatioX, screenInfo.aspectRatioY);
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods

@@ -23,25 +23,45 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Character.h"
+#import "ScreenInfo.h"
+#import "Globals.h"
 
-@implementation Character
+ScreenInfo *screenInfo;
 
-@synthesize position;
-@synthesize velocity;
+@implementation ScreenInfo
 
-- (id) init {
-    if (self = [super init]) {
-        position = GLKVector2Make(6.0f, 1.0f);
-        velocity = GLKVector2Make(0.0f, 0.0f);
-    }
-    return self;
+@synthesize width;
+@synthesize height;
+
+@synthesize widthNoScale;
+@synthesize heightNoScale;
+
+@synthesize aspectRatio;
+@synthesize aspectRatioX;
+@synthesize aspectRatioY;
+
+- (float) coordX:(float)x {
+    return x * WORLD_SCALE * aspectRatioX;
 }
 
-- (void) update {
+- (float) coordY:(float)y {
+    return y * WORLD_SCALE * aspectRatioY;
 }
 
-- (void) render {
+- (float) objectWidth:(float)w {
+    return [self objectWidth:w scale:1.0f];
+}
+
+- (float) objectHeight:(float)h {
+    return [self objectHeight:h scale:1.0f];
+}
+
+- (float) objectWidth:(float)w scale:(float)scale {
+    return w * WORLD_SCALE * aspectRatioX * scale;
+}
+
+- (float) objectHeight:(float)h scale:(float)scale {
+    return h * WORLD_SCALE * aspectRatioY * scale;
 }
 
 @end

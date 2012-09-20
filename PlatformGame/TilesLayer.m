@@ -26,6 +26,7 @@
 #import "TilesLayer.h"
 #import "Globals.h"
 #import "TextureLoader.h"
+#import "ScreenInfo.h"
 
 @implementation TilesLayer
 
@@ -45,18 +46,19 @@
     position = GLKVector2Make(0.0f, 0.0f);
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            tiles[i][j].type = 0;
+            tiles[i][j].type = 31;
         }
     }
-    tiles[1][0].type = 0;
-    tiles[1][1].type = 1;
-    tiles[1][2].type = 3;
-    tiles[2][0].type = 4;
-    tiles[2][1].type = 5;
-    tiles[2][2].type = 7;
-    tiles[3][0].type = 4;
-    tiles[3][1].type = 5;
-    tiles[3][2].type = 7;
+    tiles[5][4].type = 0;
+    tiles[5][5].type = 1;
+    tiles[5][6].type = 2;
+    tiles[5][7].type = 1;
+    tiles[5][8].type = 3;
+    tiles[6][4].type = 12;
+    tiles[6][5].type = 13;
+    tiles[6][6].type = 14;
+    tiles[6][7].type = 13;
+    tiles[6][8].type = 15;
     [self createTileMap];
 }
 
@@ -84,10 +86,10 @@
             float texCoordX2 = texCoordX1 + (TILE_WIDTH / tilesTexture.width);
             float texCoordY2 = texCoordY1 + (TILE_HEIGHT / tilesTexture.height);
             
-            float x = screenCoordX(j + blockX * TILE_MAP_BLOCK_SIZE);
-            float y = screenCoordY(i + blockY * TILE_MAP_BLOCK_SIZE);
-            float width = objectScreenWidth(1.0f);
-            float height = objectScreenHeight(1.0f);
+            float x = [screenInfo coordX:j + (blockX * TILE_MAP_BLOCK_SIZE)];
+            float y = [screenInfo coordY:i + (blockY * TILE_MAP_BLOCK_SIZE)];
+            float width = [screenInfo objectWidth:1.0f];
+            float height = [screenInfo objectHeight:1.0f];
             
             [tileQuads addQuadX:x y:y width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
         }
@@ -104,8 +106,8 @@
 }
 
 - (void) renderTileMap {
-    int countX = 2;
-    int countY = 2;
+    int countX = 4;
+    int countY = 4;
 
     for (int i = 0; i < countY; i++) {
         for (int j = 0; j < countX; j++) {

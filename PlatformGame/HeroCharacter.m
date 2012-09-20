@@ -26,6 +26,7 @@
 #import "HeroCharacter.h"
 #import "Globals.h"
 #import "TextureLoader.h"
+#import "ScreenInfo.h"
 
 @implementation HeroCharacter
 
@@ -45,8 +46,8 @@
 - (void) createQuads {
     playerQuads = [[Quads alloc] initWithTexture:playerTexture];
 
-    float width = PLAYER_SCALE * PLAYER_PIXEL_WIDTH;
-    float height = PLAYER_SCALE * PLAYER_PIXEL_HEIGHT;
+    float width = [screenInfo objectWidth:1.0f scale:PLAYER_SCALE];
+    float height = [screenInfo objectHeight:1.0f scale:PLAYER_SCALE];
 
     int numPerRow = 2;
     
@@ -70,8 +71,9 @@
 
 - (void) render {
     [super render];
-    //playerQuads.translation = GLKVector3Make(screenCoordX(position.x), screenCoordY(position.y), 0.0f);
-    playerQuads.translation = GLKVector3Make(0.5f, 0.5f, 0.0f);
+    float x = [screenInfo coordX:position.x] - ([screenInfo objectWidth:1.0f scale:PLAYER_SCALE] / 2.0f);
+    float y = [screenInfo coordY:position.y] - [screenInfo objectHeight:1.0f scale:PLAYER_SCALE];
+    playerQuads.translation = GLKVector3Make(x, y, 0.0f);
     [playerQuads renderSingleQuad:0];
 }
 

@@ -23,25 +23,39 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Character.h"
-
-@implementation Character
-
-@synthesize position;
-@synthesize velocity;
-
-- (id) init {
-    if (self = [super init]) {
-        position = GLKVector2Make(6.0f, 1.0f);
-        velocity = GLKVector2Make(0.0f, 0.0f);
-    }
-    return self;
+@interface ScreenInfo : NSObject {
+    
+@private
+    
+    float width;
+    float height;
+	float widthNoScale;
+	float heightNoScale;
+    
+    float aspectRatio;
+    float aspectRatioX;
+    float aspectRatioY;
 }
 
-- (void) update {
-}
+- (float) coordX:(float)x;
+- (float) coordY:(float)y;
 
-- (void) render {
-}
+- (float) objectWidth:(float)w;
+- (float) objectHeight:(float)h;
+
+- (float) objectWidth:(float)w scale:(float)scale;
+- (float) objectHeight:(float)h scale:(float)scale;
+
+@property (readwrite) float width;
+@property (readwrite) float height;
+
+@property (readwrite) float widthNoScale;
+@property (readwrite) float heightNoScale;
+
+@property (readwrite) float aspectRatio;
+@property (readwrite) float aspectRatioX;
+@property (readwrite) float aspectRatioY;
 
 @end
+
+extern ScreenInfo *screenInfo;
