@@ -24,6 +24,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "Physics.h"
+#import "ScreenInfo.h"
 
 @implementation Physics
 
@@ -38,6 +39,10 @@
     } else {
         return newVelocity;
     }
+}
+
++ (GLKVector2) gravityInRotation {
+    return GLKVector2Make(cos(screenInfo.rotation) * GRAVITY, sin(screenInfo.rotation) * GRAVITY);
 }
 
 @end

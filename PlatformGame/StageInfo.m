@@ -25,6 +25,8 @@
 
 #import "StageInfo.h"
 
+StageInfo *stageInfo;
+
 @implementation StageInfo
 
 @end

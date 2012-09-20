@@ -24,6 +24,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "Stage.h"
+#import "StageInfo.h"
 #import "TilesLayer.h"
 
 #define LAYER_TILES 0
@@ -49,7 +50,7 @@
 
 - (void) update {
     [stageInfo.tilesLayer update];
-    [stageInfo.hero updateWithStageInfo:stageInfo];
+    [stageInfo.hero update];
 }
 
 - (void) render {

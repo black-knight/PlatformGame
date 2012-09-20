@@ -27,8 +27,8 @@
 
 @implementation MoveableCharacter
 
-- (void) updateWithStageInfo:(StageInfo*)stageInfo {
-    [super updateWithStageInfo:stageInfo];
+- (void) update {
+    [super update];
 }
 
 - (void) render {

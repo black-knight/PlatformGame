@@ -27,7 +27,7 @@
 #import "TilesLayer.h"
 
 @interface StageInfo : NSObject {
-    
+
 @private
     
     HeroCharacter *hero;
@@ -38,3 +38,5 @@
 @property (readwrite) TilesLayer *tilesLayer;
 
 @end
+
+extern StageInfo *stageInfo;

@@ -27,6 +27,8 @@
 #import "Globals.h"
 #import "TextureLoader.h"
 #import "ScreenInfo.h"
+#import "StageInfo.h"
+#import "Physics.h"
 
 @implementation HeroCharacter
 
@@ -65,8 +67,34 @@
     [playerQuads end];
 }
 
-- (void) updateWithStageInfo:(StageInfo*)stageInfo {
-    [super updateWithStageInfo:stageInfo];
+- (void) update {
+    [super update];
+    [self applyVelocity];
+}
+
+- (void) applyVelocity {
+    [self calculateVelocity];
+    GLKVector2 proposedPosition = [Physics addForceToPosition:position force:velocity];
+    if ([self hasSolidBetweenP1:position p2:proposedPosition]) {
+        velocity = GLKVector2Make(0.0f, 0.0f);
+        return;
+    } else {
+	    position = proposedPosition;
+    }
+}
+
+- (void) calculateVelocity {
+    velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation] max:PLAYER_MAX_SPEED];
+}
+
+- (bool) hasSolidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
+    for (int i = 0; i < PLAYER_COLLISION_CHECK_COUNT; i++) {
+        GLKVector2 p = GLKVector2Add(p1, GLKVector2Subtract(p2, p1));
+        if ([stageInfo.tilesLayer collisionAt:p]) {
+            return true;
+        }
+    }
+    return false;
 }
 
 - (void) render {

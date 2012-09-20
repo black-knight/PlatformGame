@@ -43,6 +43,8 @@ typedef struct {
     char type;
 } TILE;
 
+extern TILE TILE_EMPTY;
+
 @interface TilesLayer : Layer {
 
 @private
@@ -53,6 +55,10 @@ typedef struct {
     Texture *tilesTexture;
     
     GLKVector2 position;
+    
+    TILE emptyTile;
 }
+
+- (bool) collisionAt:(GLKVector2)p;
 
 @end

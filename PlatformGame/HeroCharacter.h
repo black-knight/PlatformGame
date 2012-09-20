@@ -35,6 +35,8 @@
 
 #define PLAYER_MAX_SPEED 0.1f
 
+#define PLAYER_COLLISION_CHECK_COUNT 10
+
 @interface HeroCharacter : MoveableCharacter {
 
 @private
@@ -43,7 +45,7 @@
     Quads *playerQuads;
 }
 
-- (void) updateWithStageInfo:(StageInfo*)stageInfo;
+- (void) update;
 - (void) render;
 
 @end

@@ -25,8 +25,6 @@
 
 #import <GLKit/GLKit.h>
 
-@class StageInfo;
-
 @interface Character : NSObject {
 
 @protected
@@ -34,7 +32,7 @@
     GLKVector2 velocity;
 }
 
-- (void) updateWithStageInfo:(StageInfo*)stageInfo;
+- (void) update;
 - (void) render;
 
 @property (readonly) GLKVector2 position;

@@ -25,9 +25,13 @@
 
 #import <GLKit/GLKit.h>
 
+#define GRAVITY 0.01f
+
 @interface Physics : NSObject
 
 + (GLKVector2) addForceToPosition:(GLKVector2)position force:(GLKVector2)force;
 + (GLKVector2) addForceToVelocity:(GLKVector2)velocity force:(GLKVector2)force max:(float)max;
+
++ (GLKVector2) gravityInRotation;
 
 @end

@@ -28,6 +28,8 @@
 #import "TextureLoader.h"
 #import "ScreenInfo.h"
 
+TILE TILE_EMPTY = {.type = 31};
+
 @implementation TilesLayer
 
 - (id) init {
@@ -46,7 +48,7 @@
     position = GLKVector2Make(0.0f, 0.0f);
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            tiles[i][j].type = 31;
+            tiles[i][j] = TILE_EMPTY;
         }
     }
     tiles[5][4].type = 0;
@@ -94,6 +96,17 @@
             [tileQuads addQuadX:x y:y width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
         }
     }
+}
+
+- (bool) collisionAt:(GLKVector2)p {
+    int tileX = (int) p.x;
+    int tileY = (int) p.y;
+    TILE tile = [self tileAtX:tileX y:tileY];
+    return tile.type != TILE_EMPTY.type;
+}
+
+- (TILE) tileAtX:(int)x y:(int)y {
+    return x >= 0 && y >= 0 && x < MAP_WIDTH && y < MAP_HEIGHT ? tiles[y][x] : emptyTile;
 }
 
 - (void) update {
