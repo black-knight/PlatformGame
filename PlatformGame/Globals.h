@@ -34,11 +34,6 @@
 
 #define GLSL_PROGRAM_COUNT 1
 
-typedef struct {
-    GLKVector2 velocity;
-    float rotation;
-} GRAVITY;
-
 GLKMatrix4 sceneModelViewMatrix;
 GLKMatrix4 sceneProjectionMatrix;
 
@@ -50,8 +45,6 @@ GLuint glslProgram[GLSL_PROGRAM_COUNT];
 GLuint currentShaderProgram;
 
 GLuint uniformModelViewProjectionMatrix;
-
-GRAVITY gravity;
 
 extern int textureAtLeastSize(int size);
 

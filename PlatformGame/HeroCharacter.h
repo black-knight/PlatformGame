@@ -33,6 +33,8 @@
 #define PLAYER_PIXEL_WIDTH 64
 #define PLAYER_PIXEL_HEIGHT 64
 
+#define PLAYER_MAX_SPEED 0.1f
+
 @interface HeroCharacter : MoveableCharacter {
 
 @private
@@ -41,7 +43,7 @@
     Quads *playerQuads;
 }
 
-- (void) update;
+- (void) updateWithStageInfo:(StageInfo*)stageInfo;
 - (void) render;
 
 @end

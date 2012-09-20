@@ -23,43 +23,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@interface ScreenInfo : NSObject {
-    
-@private
-    
-    float width;
-    float height;
-	float widthNoScale;
-	float heightNoScale;
-    
-    float aspectRatio;
-    float aspectRatioX;
-    float aspectRatioY;
-    
-    float rotation;
-}
+#import "StageInfo.h"
 
-- (float) coordX:(float)x;
-- (float) coordY:(float)y;
-
-- (float) objectWidth:(float)w;
-- (float) objectHeight:(float)h;
-
-- (float) objectWidth:(float)w scale:(float)scale;
-- (float) objectHeight:(float)h scale:(float)scale;
-
-@property (readwrite) float width;
-@property (readwrite) float height;
-
-@property (readwrite) float widthNoScale;
-@property (readwrite) float heightNoScale;
-
-@property (readwrite) float aspectRatio;
-@property (readwrite) float aspectRatioX;
-@property (readwrite) float aspectRatioY;
-
-@property (readwrite) float rotation;
+@implementation StageInfo
 
 @end
-
-extern ScreenInfo *screenInfo;

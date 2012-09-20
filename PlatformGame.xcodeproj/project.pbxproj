@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		65386878160B221300C88E94 /* ScreenInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 65386877160B221300C88E94 /* ScreenInfo.m */; };
+		6538687B160B2B4E00C88E94 /* StageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6538687A160B2B4D00C88E94 /* StageInfo.m */; };
+		6538687E160B2E6600C88E94 /* Physics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6538687D160B2E6600C88E94 /* Physics.m */; };
 		65777B4C1607AB6D0087A3CD /* Stage.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4B1607AB6D0087A3CD /* Stage.m */; };
 		65777B501607AB960087A3CD /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B4F1607AB960087A3CD /* Layer.m */; };
 		65777B5316085FAB0087A3CD /* Character.m in Sources */ = {isa = PBXBuildFile; fileRef = 65777B5216085FAB0087A3CD /* Character.m */; };
@@ -39,6 +41,10 @@
 /* Begin PBXFileReference section */
 		65386876160B221300C88E94 /* ScreenInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenInfo.h; sourceTree = "<group>"; };
 		65386877160B221300C88E94 /* ScreenInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenInfo.m; sourceTree = "<group>"; };
+		65386879160B2B4D00C88E94 /* StageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StageInfo.h; sourceTree = "<group>"; };
+		6538687A160B2B4D00C88E94 /* StageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StageInfo.m; sourceTree = "<group>"; };
+		6538687C160B2E6600C88E94 /* Physics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Physics.h; sourceTree = "<group>"; };
+		6538687D160B2E6600C88E94 /* Physics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Physics.m; sourceTree = "<group>"; };
 		65777B4A1607AB6D0087A3CD /* Stage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stage.h; sourceTree = "<group>"; };
 		65777B4B1607AB6D0087A3CD /* Stage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stage.m; sourceTree = "<group>"; };
 		65777B4E1607AB960087A3CD /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
@@ -147,21 +153,23 @@
 		65C00E26160727EF00E293B3 /* PlatformGame */ = {
 			isa = PBXGroup;
 			children = (
+				65C00E27160727EF00E293B3 /* Supporting Files */,
 				65C00E481607298600E293B3 /* Shaders */,
 				65C00E441607292C00E293B3 /* Images */,
+				65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */,
+				65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */,
 				65C00E2F160727EF00E293B3 /* AppDelegate.h */,
 				65C00E30160727EF00E293B3 /* AppDelegate.m */,
 				65C00E36160727EF00E293B3 /* ViewController.h */,
 				65C00E37160727EF00E293B3 /* ViewController.m */,
-				65C00E39160727EF00E293B3 /* ViewController_iPhone.xib */,
-				65C00E3C160727EF00E293B3 /* ViewController_iPad.xib */,
-				65C00E27160727EF00E293B3 /* Supporting Files */,
 				65C00E4F1607A3DB00E293B3 /* Game.h */,
 				65C00E501607A3DB00E293B3 /* Game.m */,
 				65C00E521607A60800E293B3 /* Globals.h */,
 				65C00E531607A6A500E293B3 /* Globals.m */,
 				65777B4A1607AB6D0087A3CD /* Stage.h */,
 				65777B4B1607AB6D0087A3CD /* Stage.m */,
+				65386879160B2B4D00C88E94 /* StageInfo.h */,
+				6538687A160B2B4D00C88E94 /* StageInfo.m */,
 				65777B4E1607AB960087A3CD /* Layer.h */,
 				65777B4F1607AB960087A3CD /* Layer.m */,
 				65777B601608F13A0087A3CD /* TilesLayer.h */,
@@ -180,6 +188,8 @@
 				65777B641608F76C0087A3CD /* Quads.m */,
 				65386876160B221300C88E94 /* ScreenInfo.h */,
 				65386877160B221300C88E94 /* ScreenInfo.m */,
+				6538687C160B2E6600C88E94 /* Physics.h */,
+				6538687D160B2E6600C88E94 /* Physics.m */,
 			);
 			path = PlatformGame;
 			sourceTree = "<group>";
@@ -304,6 +314,8 @@
 				65777B621608F13A0087A3CD /* TilesLayer.m in Sources */,
 				65777B651608F76C0087A3CD /* Quads.m in Sources */,
 				65386878160B221300C88E94 /* ScreenInfo.m in Sources */,
+				6538687B160B2B4E00C88E94 /* StageInfo.m in Sources */,
+				6538687E160B2E6600C88E94 /* Physics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

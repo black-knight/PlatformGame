@@ -27,7 +27,7 @@
 
 @interface MoveableCharacter : Character
 
-- (void) update;
+- (void) updateWithStageInfo:(StageInfo*)stageInfo;
 - (void) render;
 
 @end

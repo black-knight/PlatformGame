@@ -40,6 +40,8 @@ ScreenInfo *screenInfo;
 @synthesize aspectRatioX;
 @synthesize aspectRatioY;
 
+@synthesize rotation;
+
 - (float) coordX:(float)x {
     return x * WORLD_SCALE * aspectRatioX;
 }

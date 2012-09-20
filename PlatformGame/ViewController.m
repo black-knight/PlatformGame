@@ -61,6 +61,14 @@ enum {
     [game reactivate];
 }
 
+- (void) acceleratedInX:(float)x Y:(float)y Z:(float)z {
+    screenInfo.rotation = atan2(x, y) - M_PI_2;
+}
+
+- (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
+    [self acceleratedInX:acceleration.x Y:acceleration.y Z:acceleration.z];
+}
+
 - (void) viewDidLoad {
     [super viewDidLoad];
     

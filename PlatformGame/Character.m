@@ -38,7 +38,7 @@
     return self;
 }
 
-- (void) update {
+- (void) updateWithStageInfo:(StageInfo*)stageInfo {
 }
 
 - (void) render {
