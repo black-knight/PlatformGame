@@ -26,6 +26,8 @@
 #import "TextureLoader.h"
 #import "Globals.h"
 
+TextureLoader *textureLoader;
+
 @implementation TextureLoader
 
 - (id) init {

@@ -25,6 +25,7 @@
 
 #import "Game.h"
 #import "Globals.h"
+#import "TextureLoader.h"
 
 #define FRAME_RATE ((1000.0f / 60.0f) / 1000.0f)
 

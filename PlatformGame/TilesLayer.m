@@ -25,6 +25,7 @@
 
 #import "TilesLayer.h"
 #import "Globals.h"
+#import "TextureLoader.h"
 
 @implementation TilesLayer
 
@@ -61,18 +62,19 @@
 
 - (void) createTileMap {
     tilesTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLATFORM];
-
+	[tilesTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
+    
+    tileQuads = [[Quads alloc] initWithTexture:tilesTexture];
     for (int i = 0; i < MAP_HEIGHT / TILE_MAP_BLOCK_SIZE; i++) {
         for (int j = 0; j < MAP_WIDTH / TILE_MAP_BLOCK_SIZE; j++) {
             [self createTileBlockX:j y:i];
         }
     }
-    [self generateTileBlockVertexArray];
+    [tileQuads end];
 }
 
 - (void) createTileBlockX:(int)blockX y:(int)blockY {
     int tilesPerRow = 4;
-    int v = 0;
     for (int i = 0; i < TILE_MAP_BLOCK_SIZE; i++) {
         for (int j = 0; j < TILE_MAP_BLOCK_SIZE; j++) {
             char tile = tiles[blockY * TILE_MAP_BLOCK_SIZE + i][blockX * TILE_MAP_BLOCK_SIZE + j].type;
@@ -82,73 +84,14 @@
             float texCoordX2 = texCoordX1 + (TILE_WIDTH / tilesTexture.width);
             float texCoordY2 = texCoordY1 + (TILE_HEIGHT / tilesTexture.height);
             
-            float x1 = (j + blockX * TILE_MAP_BLOCK_SIZE) * MAP_SCALE;
-            float y1 = -(i + blockY * TILE_MAP_BLOCK_SIZE) * MAP_SCALE + aspectRatioX;
-            float x2 = x1 + MAP_SCALE;
-            float y2 = y1 + MAP_SCALE;
+            float x = screenCoordX(j + blockX * TILE_MAP_BLOCK_SIZE);
+            float y = screenCoordY(i + blockY * TILE_MAP_BLOCK_SIZE);
+            float width = objectScreenWidth(1.0f);
+            float height = objectScreenHeight(1.0f);
             
-            // Triangle 1
-            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
-            v += 5;
-            
-            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
-            v += 5;
-            
-            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
-            v += 5;
-            
-            // Triangle 2
-            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y2;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY1;
-            v += 5;
-            
-            tileMapBlockVertices[blockY][blockX][v + 0] = x1;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX1;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
-            v += 5;
-            
-            tileMapBlockVertices[blockY][blockX][v + 0] = x2;
-            tileMapBlockVertices[blockY][blockX][v + 1] = y1;
-            tileMapBlockVertices[blockY][blockX][v + 2] = 0.0f;
-            tileMapBlockVertices[blockY][blockX][v + 3] = texCoordX2;
-            tileMapBlockVertices[blockY][blockX][v + 4] = texCoordY2;
-            v += 5;
+            [tileQuads addQuadX:x y:y width:width height:height texCoordX1:texCoordX1 texCoordY1:texCoordY1 texCoordX2:texCoordX2 texCoordY2:texCoordY2];
         }
     }
-}
-
-- (void) generateTileBlockVertexArray {
-    glGenVertexArraysOES(1, &tileMapVertexArray);
-    glBindVertexArrayOES(tileMapVertexArray);
-    
-    glGenBuffers(1, &tileMapVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, tileMapVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(tileMapBlockVertices), tileMapBlockVertices, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(0));
-    
-    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(3));
-    
-    glBindVertexArrayOES(0);
 }
 
 - (void) update {
@@ -161,33 +104,16 @@
 }
 
 - (void) renderTileMap {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glkEffect.texture2d0.name = tilesTexture.texId;
-    glkEffect.texture2d0.enabled = GL_TRUE;
-    
-    glkEffect.useConstantColor = YES;
-    glkEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    
-    glkEffect.transform.modelviewMatrix = GLKMatrix4Translate(sceneModelViewMatrix, position.x, position.y, 0.0f);
-    glkEffect.transform.projectionMatrix = sceneProjectionMatrix;
-    
-    [glkEffect prepareToDraw];
-
     int countX = 2;
     int countY = 2;
 
     for (int i = 0; i < countY; i++) {
         for (int j = 0; j < countX; j++) {
-            int startOffset = ((i * (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)) + j) * 6 * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE;
-            glBindVertexArrayOES(tileMapVertexArray);
-            glDrawArrays(GL_TRIANGLES, startOffset, 6 * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE);
+            int start = ((i * (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)) + j) * TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE;
+            int count = TILE_MAP_BLOCK_SIZE * TILE_MAP_BLOCK_SIZE;
+            [tileQuads renderRangeFrom:start count:count];
         }
     }
-}
-
-- (void) renderTileBlockX:(int)x y:(int)y {
 }
 
 @end

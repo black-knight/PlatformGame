@@ -76,10 +76,21 @@
         glDeleteBuffers(1, &vertexBuffer);
         glDeleteVertexArraysOES(1, &vertexArray);
     }
+    if (quads != NULL) {
+        free(quads);
+        quads = NULL;
+    }
+    if (vertices != NULL) {
+        free(vertices);
+        vertices = NULL;
+    }
 }
 
 - (void) initialize {
     quadCount = 0;
+    quadArraySize = 0;
+    quads = NULL;
+    vertices = NULL;
     translation = GLKVector3Make(0.0f, 0.0f, 0.0f);
     rotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
     backgroundColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 0.0f);
@@ -95,6 +106,10 @@
 }
 
 - (void) generateCoordinates {
+    if (vertices != NULL) {
+        free(vertices);
+    }
+    vertices = (GLfloat*) malloc(quadCount * 6 * 5 * sizeof(GLfloat));
     int v = 0;
     for (int i = 0; i < quadCount; i++) {
         
@@ -142,6 +157,9 @@
         vertices[v + 4] = quads[i].texCoordDefined ? quads[i].texCoordY2 : texture.texCoordY2;
         v += 5;
     }
+    free(quads);
+    quads = NULL;
+    quadArraySize = 0;
 }
 
 - (void) generateVertexArrays {
@@ -150,7 +168,7 @@
     
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, quadCount * 6 * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), BUFFER_OFFSET(0));
@@ -161,8 +179,11 @@
     } else {
         glDisableVertexAttribArray(GLKVertexAttribTexCoord0);
     }
-    
+
     glBindVertexArrayOES(0);
+    
+    free(vertices);
+    vertices = NULL;
 }
 
 - (void) addQuadX:(float)x y:(float)y width:(float)width height:(float)height {
@@ -183,10 +204,7 @@
 }
 
 - (void) addQuadX1:(float)x1 y1:(float)y1 z1:(float)z1 x2:(float)x2 y2:(float)y2 z2:(float)z2 x3:(float)x3 y3:(float)y3 z3:(float)z3 x4:(float)x4 y4:(float)y4 z4:(float)z4 {
-    if (quadCount >= QUADS_MAX_COUNT) {
-        NSLog(@"Too many quads!");
-        exit(-1);
-    }
+    [self ensureQuadArraySize];
     quads[quadCount].x1 = x1;
     quads[quadCount].y1 = y1;
     quads[quadCount].z1 = z1;
@@ -201,6 +219,19 @@
     quads[quadCount].z4 = z4;
     quads[quadCount].texCoordDefined = false;
     quadCount++;
+}
+
+- (void) ensureQuadArraySize {
+    if (quads != NULL && quadCount < quadArraySize) {
+        return;
+    }
+    quadArraySize += 64;
+    QUAD *oldQuads = quads;
+    quads = (QUAD *)malloc(quadArraySize * sizeof(QUAD));
+    for (int i = 0; i < quadCount; i++) {
+        quads[i] = oldQuads[i];
+    }
+    free(oldQuads);
 }
 
 - (void) render {
@@ -221,6 +252,15 @@
     glDrawArrays(GL_TRIANGLES, index * 6, 6);
 }
 
+- (void) renderRangeFrom:(int)index count:(int)count {
+    if (quadCount == 0) {
+        return;
+    }
+    [self prepareRender];
+    glBindVertexArrayOES(vertexArray);
+    glDrawArrays(GL_TRIANGLES, index * 6, count * 6);
+}
+
 - (void) prepareRender {
 	if (!textureToggled) {
         glEnable(GL_BLEND);
@@ -234,7 +274,7 @@
     
     glkEffect.texture2d0.name = texture.texId;
     glkEffect.texture2d0.enabled = textureToggled ? GL_TRUE : GL_FALSE;
-    
+
     glkEffect.useConstantColor = YES;
     glkEffect.constantColor = color;
     

@@ -33,7 +33,6 @@
 
 #define MAP_WIDTH 32
 #define MAP_HEIGHT 32
-#define MAP_SCALE (1.0f / 8.0f)
 
 #define TILE_MAP_BLOCK_SIZE 4
 #define TILE_MAP_WIDTH (MAP_WIDTH / TILE_MAP_BLOCK_SIZE)
@@ -49,12 +48,8 @@ typedef struct {
 @private
 
 	TILE tiles[MAP_HEIGHT][MAP_WIDTH];
-
-    GLfloat tileMapBlockVertices[TILE_MAP_HEIGHT][TILE_MAP_WIDTH][TILE_MAP_VERTICES_COUNT];
+	Quads *tileQuads;
     
-    GLuint tileMapVertexArray;
-    GLuint tileMapVertexBuffer;
-
     Texture *tilesTexture;
     
     GLKVector2 position;

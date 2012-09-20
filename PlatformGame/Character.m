@@ -32,7 +32,7 @@
 
 - (id) init {
     if (self = [super init]) {
-        position = GLKVector2Make(0.0f, 0.0f);
+        position = GLKVector2Make(0.0f, 1.5f);
         velocity = GLKVector2Make(0.0f, 0.0f);
     }
     return self;

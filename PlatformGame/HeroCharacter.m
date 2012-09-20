@@ -25,6 +25,7 @@
 
 #import "HeroCharacter.h"
 #import "Globals.h"
+#import "TextureLoader.h"
 
 @implementation HeroCharacter
 
@@ -69,6 +70,7 @@
 
 - (void) render {
     [super render];
+    //playerQuads.translation = GLKVector3Make(screenCoordX(position.x), screenCoordY(position.y), 0.0f);
     playerQuads.translation = GLKVector3Make(0.5f, 0.5f, 0.0f);
     [playerQuads renderSingleQuad:0];
 }

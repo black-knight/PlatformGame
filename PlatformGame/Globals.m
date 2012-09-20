@@ -24,6 +24,23 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <math.h>
+#import "Globals.h"
+
+float screenCoordX(float x) {
+    return x * MAP_SCALE * aspectRatioX;
+}
+
+float screenCoordY(float y) {
+    return -y * MAP_SCALE + aspectRatioY;
+}
+
+float objectScreenWidth(float width) {
+    return width * MAP_SCALE * aspectRatioX;
+}
+
+float objectScreenHeight(float height) {
+    return height * MAP_SCALE * aspectRatioY;
+}
 
 int textureAtLeastSize(int size) {
     int l = (int) log2(size);

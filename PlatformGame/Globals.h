@@ -26,7 +26,9 @@
 #ifndef Demoteket_Globals_h
 #define Demoteket_Globals_h
 
-#import "TextureLoader.h"
+#import <GLKit/GLKit.h>
+
+#define MAP_SCALE (1.0f / 8.0f)
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i * sizeof(GLfloat)))
 
@@ -46,8 +48,6 @@ float aspectRatio;
 float aspectRatioX;
 float aspectRatioY;
 
-TextureLoader *textureLoader;
-
 GLKMatrix4 sceneModelViewMatrix;
 GLKMatrix4 sceneProjectionMatrix;
 
@@ -60,8 +60,13 @@ GLuint currentShaderProgram;
 
 GLuint uniformModelViewProjectionMatrix;
 
-extern int textureAtLeastSize(int size);
-
 GRAVITY gravity;
+
+extern float screenCoordX(float x);
+extern float screenCoordY(float y);
+extern float objectScreenWidth(float width);
+extern float objectScreenHeight(float height);
+
+extern int textureAtLeastSize(int size);
 
 #endif

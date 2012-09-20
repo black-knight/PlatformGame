@@ -41,3 +41,5 @@
 - (void) loadAsynchroniously:(int)textureNumber callback:(void(^)(Texture*))callback;
 
 @end
+
+extern TextureLoader *textureLoader;

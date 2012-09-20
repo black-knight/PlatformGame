@@ -25,9 +25,6 @@
 
 #import "Texture.h"
 
-#define QUADS_MAX_COUNT 32
-#define VERTICES_MAX_COUNT (QUADS_MAX_COUNT * 9 * 3 * sizeof(GLfloat))
-
 typedef struct {
     float x1, y1, z1;
     float x2, y2, z2;
@@ -36,14 +33,15 @@ typedef struct {
     float texCoordX1, texCoordY1;
     float texCoordX2, texCoordY2;
     bool texCoordDefined;
-} Quad;
+} QUAD;
 
 @interface Quads : NSObject {
 
 @private
     
-    Quad quads[QUADS_MAX_COUNT];
+    QUAD *quads;
     int quadCount;
+    int quadArraySize;
 
     Texture *texture;
     bool textureToggled;
@@ -51,7 +49,7 @@ typedef struct {
     GLKVector4 color;
     GLKVector4 backgroundColor;
     
-    GLfloat vertices[VERTICES_MAX_COUNT];
+    GLfloat *vertices;
     
     GLuint vertexArray;
     GLuint vertexBuffer;
@@ -73,6 +71,7 @@ typedef struct {
 
 - (void) render;
 - (void) renderSingleQuad:(int)index;
+- (void) renderRangeFrom:(int)index count:(int)count;
 
 @property (readwrite) GLKVector4 color;
 @property (readwrite) GLKVector4 backgroundColor;
