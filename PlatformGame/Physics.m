@@ -85,12 +85,4 @@
     return a2 - a1;
 }
 
-+ (GLKVector2) project:(GLKVector2)a on:(GLKVector2)b {
-    if (GLKVector2Length(b) <= 0.0f) {
-        return a;
-    }
-    GLKVector2 unitB = GLKVector2Normalize(b);
-    return GLKVector2MultiplyScalar(unitB, GLKVector2DotProduct(a, unitB));
-}
-
 @end

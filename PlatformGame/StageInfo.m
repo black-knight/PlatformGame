@@ -29,4 +29,7 @@ StageInfo *stageInfo;
 
 @implementation StageInfo
 
+@synthesize tilesLayer;
+@synthesize hero;
+
 @end
