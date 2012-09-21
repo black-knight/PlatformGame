@@ -31,6 +31,7 @@
 
     float rotation;
     bool onGround;
+    bool onGroundInPreviousFrame;
 }
 
 - (void) update;

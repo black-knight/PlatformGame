@@ -41,5 +41,7 @@
 + (GLKVector2) gravityInRotation;
 
 + (float) angleDistanceFrom:(float)a1 to:(float)a2;
++ (float) angleDifferenceFrom:(float)a1 to:(float)a2;
++ (GLKVector2) project:(GLKVector2)a on:(GLKVector2)b;
 
 @end

@@ -51,16 +51,14 @@ TILE TILE_EMPTY = {.type = 31};
             tiles[i][j] = TILE_EMPTY;
         }
     }
-    tiles[5][4].type = 0;
-    tiles[5][5].type = 1;
-    tiles[5][6].type = 2;
-    tiles[5][7].type = 1;
-    tiles[5][8].type = 3;
-    tiles[6][4].type = 12;
-    tiles[6][5].type = 13;
-    tiles[6][6].type = 14;
-    tiles[6][7].type = 13;
-    tiles[6][8].type = 15;
+    tiles[4][3].type = 0;
+    tiles[4][4].type = 1;
+    tiles[4][5].type = 2;
+    tiles[4][6].type = 3;
+    tiles[5][3].type = 12;
+    tiles[5][4].type = 13;
+    tiles[5][5].type = 14;
+    tiles[5][6].type = 15;
 
     tiles[10][1].type = 0;
     tiles[10][2].type = 1;
@@ -72,6 +70,31 @@ TILE TILE_EMPTY = {.type = 31};
     tiles[11][3].type = 14;
     tiles[11][4].type = 13;
     tiles[11][5].type = 15;
+
+    tiles[13][ 4].type = 0;
+    tiles[13][ 5].type = 1;
+    tiles[13][ 6].type = 2;
+    tiles[13][ 7].type = 1;
+    tiles[13][ 8].type = 2;
+    tiles[13][ 9].type = 1;
+    tiles[13][10].type = 3;
+    tiles[14][ 4].type = 12;
+    tiles[14][ 5].type = 13;
+    tiles[14][ 6].type = 14;
+    tiles[14][ 7].type = 13;
+    tiles[14][ 8].type = 14;
+    tiles[14][ 9].type = 13;
+    tiles[14][10].type = 15;
+
+    tiles[2][0].type = 19;
+    tiles[3][0].type = 23;
+    tiles[4][0].type = 23;
+    tiles[5][0].type = 23;
+    tiles[6][0].type = 23;
+    tiles[7][0].type = 23;
+    tiles[8][0].type = 23;
+    tiles[9][0].type = 27;
+
     [self createTileMap];
 }
 
@@ -112,13 +135,63 @@ TILE TILE_EMPTY = {.type = 31};
 - (bool) collisionAt:(GLKVector2)p {
     int tileX = (int) p.x;
     int tileY = (int) p.y;
+    float offsetX = p.x - tileX;
+    float offsetY = p.y - tileY;
     TILE tile = [self tileAtX:tileX y:tileY];
+    if (tile.type == 1 || tile.type == 2) {
+        return offsetY >= 0.3f;
+    }
+    if (tile.type == 13 || tile.type == 14) {
+        return offsetY <= 0.7f;
+    }
+    if (tile.type == 0) {
+        return offsetX >= 0.3f && offsetY >= 0.3f;
+    }
+    if (tile.type == 3) {
+        return offsetX <= 0.7f && offsetY >= 0.3f;
+    }
+    if (tile.type == 12) {
+        return offsetX >= 0.3f && offsetY <= 0.7f;
+    }
+    if (tile.type == 15) {
+        return offsetX <= 0.7f && offsetY <= 0.7f;
+    }
+    if (tile.type == 19 || tile.type == 23 || tile.type == 27) {
+        return offsetX >= 0.2f && offsetX <= 0.8f;
+    }
     return tile.type != TILE_EMPTY.type;
 }
 
 - (float) angleAt:(GLKVector2)p {
     if (![self collisionAt:p]) {
         return 0.0f;
+    }
+    int tileX = (int) p.x;
+    int tileY = (int) p.y;
+    //float offsetX = p.x - tileX;
+    //float offsetY = p.y - tileY;
+    TILE tile = [self tileAtX:tileX y:tileY];
+    //NSLog(@"%i vs %f, %f vs %i, %i", tile.type, offsetX, offsetY, tileX, tileY);
+    if (tile.type == 1 || tile.type == 2) {
+        return 0.0f;
+    }
+    if (tile.type == 13 || tile.type == 14) {
+        return 0.0f;
+    }
+    if (tile.type == 0) {
+        return 0.0f;
+    }
+    if (tile.type == 3) {
+        return 0.0f;
+    }
+    if (tile.type == 12) {
+        return 0.0f;
+    }
+    if (tile.type == 15) {
+        return 0.0f;
+    }
+    if (tile.type == 19 || tile.type == 23 || tile.type == 27) {
+        return M_PI_2;
     }
     return 0.0f; // TODO!
 }

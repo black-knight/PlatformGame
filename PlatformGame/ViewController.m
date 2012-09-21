@@ -62,7 +62,7 @@ enum {
 }
 
 - (void) acceleratedInX:(float)x Y:(float)y Z:(float)z {
-    //screenInfo.rotation = atan2(x, y);
+    screenInfo.rotation = atan2(x, y);
 }
 
 - (void) accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {

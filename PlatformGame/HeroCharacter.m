@@ -79,24 +79,20 @@
 }
 
 - (void) updateGroundInfo {
+    onGroundInPreviousFrame = onGround;
     groundPosition = GLKVector2Add(position, GLKVector2MultiplyScalar([Physics rotationVector], PLAYER_COLLISION_CHECK_DISTANCE));
-    //NSLog(@"%f, %f vs %f, %f", groundPosition.x, groundPosition.y, position.x, position.y);
     onGround = [self solidBetweenP1:position p2:groundPosition];
 }
 
 - (void) applyVelocity {
-    GLKVector2 proposedPosition = [Physics addForceToPosition:position force:velocity];
-    //NSLog(@"%i - %f, %f vs %f, %f", [self solidBetweenP1:position p2:proposedPosition], position.x, position.y, proposedPosition.x, proposedPosition.y);
-    /*if ([self solidBetweenP1:position p2:proposedPosition]) {
-        velocity = GLKVector2Make(0.0f, 0.0f);
-        proposedPosition = [self lastPositionBeforeFirstSolidBetweenP1:position p2:proposedPosition];
-    }*/
-    position = proposedPosition;
+    position = [Physics addForceToPosition:position force:velocity];
+    if (position.y > 20.0f) {
+        position.y = 0.0f;
+    }
 }
 
 - (void) calculateVelocity {
     if (onGround) {
-        velocity.y = 0.0f;
         [self calculateGroundVelocity];
     } else {
         velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation]];
@@ -107,13 +103,17 @@
 
 - (void) calculateGroundVelocity {
     float groundAngle = [stageInfo.tilesLayer angleAt:groundPosition];
-    //NSLog(@"%f, %f", rotation, groundAngle);
-    if (ABS(rotation - groundAngle) < PLAYER_GROUND_SLIP_ANGLE) {
+    float angleDistance = [Physics angleDistanceFrom:rotation to:groundAngle];
+
+    groundAngle += [Physics angleDifferenceFrom:rotation to:groundAngle] < 0.0f ? M_PI : 0.0f;
+
+    if (!onGroundInPreviousFrame) {
+	    velocity = GLKVector2Project(velocity, GLKVector2Make(cos(groundAngle), sin(groundAngle)));
+    }
+    if (angleDistance < PLAYER_GROUND_SLIP_ANGLE) {
         return;
     }
-    groundAngle += [Physics angleDistanceFrom:rotation to:groundAngle] < 0.0f ? M_PI : 0.0f;
-    float slipForce = PLAYER_GROUND_SLIP_SPEED;// * (ABS(rotation - groundAngle) - PLAYER_GROUND_SLIP_ANGLE);
-    //NSLog(@"%f, %f", rotation, groundAngle);
+    float slipForce = PLAYER_GROUND_SLIP_SPEED * (angleDistance - PLAYER_GROUND_SLIP_ANGLE);
     velocity = [Physics addForceToVelocity:velocity force:GLKVector2Make(cos(groundAngle) * slipForce, sin(groundAngle) * slipForce)];
 }
 
@@ -122,23 +122,28 @@
 }
 
 - (bool) solidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
-    for (int i = 0; i <= PLAYER_COLLISION_CHECK_COUNT; i++) {
-        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), (float) i / (float) PLAYER_COLLISION_CHECK_COUNT));
+    float length = GLKVector2Distance(p1, p2);
+    for (float l = 0; l <= length; l += PLAYER_COLLISION_CHECK_LEAP) {
+        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), l));
         if ([stageInfo.tilesLayer collisionAt:p]) {
             return true;
         }
     }
-    return false;
+    return [stageInfo.tilesLayer collisionAt:p2];
 }
 
 - (GLKVector2) lastPositionBeforeFirstSolidBetweenP1:(GLKVector2)p1 p2:(GLKVector2)p2 {
     GLKVector2 oldP = p1;
-    for (int i = 0; i <= PLAYER_COLLISION_CHECK_COUNT; i++) {
-        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), (float) i / (float) PLAYER_COLLISION_CHECK_COUNT));
+    float length = GLKVector2Distance(p1, p2);
+    for (float l = 0; l <= length; l += PLAYER_COLLISION_CHECK_LEAP) {
+        GLKVector2 p = GLKVector2Add(p1, GLKVector2MultiplyScalar(GLKVector2Subtract(p2, p1), l));
         if ([stageInfo.tilesLayer collisionAt:p]) {
             return oldP;
         }
         oldP = p;
+    }
+    if ([stageInfo.tilesLayer collisionAt:p2]) {
+        return oldP;
     }
     return p1;
 }
