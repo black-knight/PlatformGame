@@ -35,8 +35,9 @@
     target = p;
 }
 
-- (GLKVector2) getSimpleTarget {
-    return target;
+- (SIMPLE_MOVEMENT) getSimpleMovement {
+    SIMPLE_MOVEMENT m = {.type = SIMPLE_MOVEMENT_GOTO, .target = target};
+    return m;
 }
 
 @end

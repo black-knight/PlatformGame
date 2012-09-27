@@ -25,6 +25,18 @@
 
 #import <GLKit/GLKit.h>
 
+#define SIMPLE_MOVEMENT_GOTO 0
+#define SIMPLE_MOVEMENT_FALL_LEFT 1
+#define SIMPLE_MOVEMENT_FALL_RIGHT 2
+#define SIMPLE_MOVEMENT_JUMP_UP 3
+#define SIMPLE_MOVEMENT_JUMP_LEFT 4
+#define SIMPLE_MOVEMENT_JUMP_RIGHT 5
+
+typedef struct {
+    int type;
+	GLKVector2 target;
+} SIMPLE_MOVEMENT;
+
 @interface PathFinder : NSObject {
 
 @private
@@ -35,6 +47,6 @@
 - (void) setSourcePosition:(GLKVector2)p;
 - (void) setTargetPosition:(GLKVector2)p;
 
-- (GLKVector2) getSimpleTarget;
+- (SIMPLE_MOVEMENT) getSimpleMovement;
 
 @end

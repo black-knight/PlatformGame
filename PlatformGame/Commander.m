@@ -29,19 +29,13 @@
 
 - (id) init {
     if (self = [super init]) {
-        commands = nil;
-        [self reset];
+        commandsSize = 16;
+        commands = (COMMAND*) malloc(commandsSize * sizeof(COMMAND));
     }
     return self;
 }
 
 - (void) dealloc {
-    [self freeCommands];
-}
-
-- (void) freeCommands {
-    commandsSize = 0;
-    commandCount = 0;
     if (commands != nil) {
         free(commands);
         commands = nil;
@@ -49,9 +43,7 @@
 }
 
 - (void) reset {
-    [self freeCommands];
-    commandsSize = 16;
-    commands = (COMMAND*) malloc(commandsSize * sizeof(COMMAND));
+    commandCount = 0;
 }
 
 + (COMMAND) commandOfType:(int)type {

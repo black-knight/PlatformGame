@@ -43,7 +43,7 @@
     pathFinder = [[PathFinder alloc] init];
 
     commander = [[Commander alloc] init];
-    [commander addCommand:[Commander commandOfType:COMMAND_GOTO_POSITION targetPosition:GLKVector2Make(4.0f, 4.0f)]];
+    [commander addCommand:[Commander commandOfType:COMMAND_GOTO_POSITION targetPosition:GLKVector2Make(5.0f, 13.0f)]];
     
     playerTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLAYER];
     [playerTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
@@ -78,6 +78,7 @@
     [super update];
     [self updateGroundInfo];
 
+    [self updateCommands];
     [self updatePath];
     
     [self calculateVelocity];
@@ -86,10 +87,19 @@
     [self calculatePlayerRotation];
 }
 
+- (void) updateCommands {
+    COMMAND command = [commander getCommand];
+    if (command.type == COMMAND_GOTO_POSITION && [self distanceToPoint:command.targetPosition] < 0.25f) {
+        [commander popCommand];
+    }
+}
+
 - (void) updatePath {
     COMMAND command = [commander getCommand];
-    [pathFinder setSourcePosition:position];
-    [pathFinder setTargetPosition:command.targetPosition];
+    if (command.type != COMMAND_NONE) {
+	    [pathFinder setSourcePosition:position];
+	    [pathFinder setTargetPosition:command.targetPosition];
+    }
 }
 
 - (void) updateGroundInfo {
@@ -120,11 +130,11 @@
 }
 
 - (void) addMovement {
-    if (!onGround) {
+    if (!onGround || [commander getCommand].type == COMMAND_NONE) {
         return;
     }
-    GLKVector2 target = [pathFinder getSimpleTarget];
-    velocity.x += position.x < target.x ? PLAYER_MOVE_SPEED : -PLAYER_MOVE_SPEED;
+    SIMPLE_MOVEMENT movement = [pathFinder getSimpleMovement];
+    velocity.x += position.x < movement.target.x ? PLAYER_MOVE_SPEED : -PLAYER_MOVE_SPEED;
 }
 
 - (void) addGravity {
@@ -169,6 +179,10 @@
         return oldP;
     }
     return p1;
+}
+
+- (float) distanceToPoint:(GLKVector2)p {
+    return GLKVector2Distance(position, p);
 }
 
 - (void) render {
