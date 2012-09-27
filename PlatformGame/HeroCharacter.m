@@ -92,29 +92,23 @@
 }
 
 - (void) calculateVelocity {
-    if (onGround) {
-        [self calculateGroundVelocity];
-    } else {
-        velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation]];
-    }
+    [self addGravity];
+    [self adjustVelocityWhenOnGround];
     velocity = [Physics dampenVelocity:velocity factor:PLAYER_VELOCITY_DAMPEN];
     velocity = [Physics restrictVelocityToMax:velocity maxX:PLAYER_MAX_SPEED_X maxY:PLAYER_MAX_SPEED_Y];
 }
 
-- (void) calculateGroundVelocity {
-    float groundAngle = [stageInfo.tilesLayer angleAt:groundPosition];
-    float angleDistance = [Physics angleDistanceFrom:rotation to:groundAngle];
+- (void) addGravity {
+    velocity = [Physics addForceToVelocity:velocity force:[Physics gravityInRotation]];
+}
 
-    groundAngle += [Physics angleDifferenceFrom:rotation to:groundAngle] < 0.0f ? M_PI : 0.0f;
-
-    if (!onGroundInPreviousFrame) {
-	    velocity = GLKVector2Project(velocity, GLKVector2Make(cos(groundAngle), sin(groundAngle)));
-    }
-    if (angleDistance < PLAYER_GROUND_SLIP_ANGLE) {
+- (void) adjustVelocityWhenOnGround {
+    if (!onGround) {
         return;
     }
-    float slipForce = PLAYER_GROUND_SLIP_SPEED * (angleDistance - PLAYER_GROUND_SLIP_ANGLE);
-    velocity = [Physics addForceToVelocity:velocity force:GLKVector2Make(cos(groundAngle) * slipForce, sin(groundAngle) * slipForce)];
+    float groundAngle = [stageInfo.tilesLayer angleAt:groundPosition];
+    velocity = [Physics projectVector:[Physics dampenVelocity:velocity factor:PLAYER_GROUND_SLIP_RESISTANCE]
+                                 onto:GLKVector2Make(cos(groundAngle), sin(groundAngle))];
 }
 
 - (void) calculatePlayerRotation {

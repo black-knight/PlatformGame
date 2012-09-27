@@ -37,6 +37,8 @@
 + (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity max:(float)max;
 + (GLKVector2) restrictVelocityToMax:(GLKVector2)velocity maxX:(float)maxX maxY:(float)maxY;
 
++ (GLKVector2) projectVector:(GLKVector2)v1 onto:(GLKVector2)v2;
+
 + (GLKVector2) rotationVector;
 + (GLKVector2) gravityInRotation;
 

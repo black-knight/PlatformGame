@@ -71,6 +71,10 @@
     return GLKVector2Make(cos(screenInfo.rotation) * GRAVITY, sin(screenInfo.rotation) * GRAVITY);
 }
 
++ (GLKVector2) projectVector:(GLKVector2)v1 onto:(GLKVector2)v2 {
+    return GLKVector2Project(v1, v2);
+}
+
 + (float) angleDistanceFrom:(float)a1 to:(float)a2 {
     if (ABS(a1 - a2) > M_PI) {
         a1 += (a1 < a2 ? M_PI : -M_PI) * 2.0f;
