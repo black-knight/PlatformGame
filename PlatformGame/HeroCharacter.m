@@ -40,6 +40,11 @@
 }
 
 - (void) initialize {
+    pathFinder = [[PathFinder alloc] init];
+
+    commander = [[Commander alloc] init];
+    [commander addCommand:[Commander commandOfType:COMMAND_GOTO_POSITION targetPosition:GLKVector2Make(4.0f, 4.0f)]];
+    
     playerTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLAYER];
     [playerTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
     [self createQuads];
@@ -72,16 +77,31 @@
 - (void) update {
     [super update];
     [self updateGroundInfo];
+
+    [self updatePath];
+    
     [self calculateVelocity];
-    //NSLog(@"%f, %f vs %f, %f", position.x, position.y, velocity.x, velocity.y);
     [self applyVelocity];
+
     [self calculatePlayerRotation];
+}
+
+- (void) updatePath {
+    COMMAND command = [commander getCommand];
+    [pathFinder setSourcePosition:position];
+    [pathFinder setTargetPosition:command.targetPosition];
 }
 
 - (void) updateGroundInfo {
     onGroundInPreviousFrame = onGround;
     groundPosition = GLKVector2Add(position, GLKVector2MultiplyScalar([Physics rotationVector], PLAYER_COLLISION_CHECK_DISTANCE));
     onGround = [self solidBetweenP1:position p2:groundPosition];
+    if (onGround) {
+        float groundAngle = [stageInfo.tilesLayer angleAt:groundPosition];
+        if ([Physics angleDistanceFrom:rotation to:groundAngle] > M_PI_2) {
+            onGround = false;
+        }
+    }
 }
 
 - (void) applyVelocity {
@@ -93,9 +113,18 @@
 
 - (void) calculateVelocity {
     [self addGravity];
+    [self addMovement];
     [self adjustVelocityWhenOnGround];
     velocity = [Physics dampenVelocity:velocity factor:PLAYER_VELOCITY_DAMPEN];
     velocity = [Physics restrictVelocityToMax:velocity maxX:PLAYER_MAX_SPEED_X maxY:PLAYER_MAX_SPEED_Y];
+}
+
+- (void) addMovement {
+    if (!onGround) {
+        return;
+    }
+    GLKVector2 target = [pathFinder getSimpleTarget];
+    velocity.x += position.x < target.x ? PLAYER_MOVE_SPEED : -PLAYER_MOVE_SPEED;
 }
 
 - (void) addGravity {

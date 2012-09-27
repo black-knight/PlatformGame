@@ -23,43 +23,20 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "Globals.h"
-#import "Commander.h"
 #import "PathFinder.h"
-#import "MoveableCharacter.h"
-#import "Texture.h"
-#import "Quads.h"
 
-#define PLAYER_QUADS_COUNT 2
+@implementation PathFinder
 
-#define PLAYER_SCALE 1.0f
-#define PLAYER_PIXEL_WIDTH 64
-#define PLAYER_PIXEL_HEIGHT 64
-
-#define PLAYER_MAX_SPEED_X 0.05f
-#define PLAYER_MAX_SPEED_Y 0.25f
-#define PLAYER_VELOCITY_DAMPEN 0.05f
-#define PLAYER_MOVE_SPEED 0.01f
-
-#define PLAYER_GROUND_SLIP_RESISTANCE 0.1f
-
-#define PLAYER_COLLISION_CHECK_LEAP (WORLD_SCALE / 32.0f)
-#define PLAYER_COLLISION_CHECK_DISTANCE (WORLD_SCALE * 0.1f)
-
-@interface HeroCharacter : MoveableCharacter {
-
-@private
-    
-    Commander *commander;
-    PathFinder *pathFinder;
-    
-    Texture *playerTexture;
-    Quads *playerQuads;
-    
-    GLKVector2 groundPosition;
+- (void) setSourcePosition:(GLKVector2)p {
+    source = p;
 }
 
-- (void) update;
-- (void) render;
+- (void) setTargetPosition:(GLKVector2)p {
+    target = p;
+}
+
+- (GLKVector2) getSimpleTarget {
+    return target;
+}
 
 @end
