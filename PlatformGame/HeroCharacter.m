@@ -29,6 +29,7 @@
 #import "ScreenInfo.h"
 #import "StageInfo.h"
 #import "Physics.h"
+#import "Command.h"
 
 @implementation HeroCharacter
 
@@ -43,7 +44,7 @@
     pathFinder = [[PathFinder alloc] init];
 
     commander = [[Commander alloc] init];
-    [commander addCommand:[Commander commandOfType:COMMAND_GOTO_POSITION targetPosition:GLKVector2Make(5.0f, 13.0f)]];
+    [commander addCommand:commandWithPosition(COMMAND_GOTO_POSITION, GLKVector2Make(5.0f, 13.0f))];
     
     playerTexture = [textureLoader loadSynchroniously:TEXTURE_TILES_PLAYER];
     [playerTexture setBlendSrc:GL_SRC_ALPHA blendDst:GL_ONE_MINUS_SRC_ALPHA];
@@ -133,8 +134,8 @@
     if (!onGround || [commander getCommand].type == COMMAND_NONE) {
         return;
     }
-    SIMPLE_MOVEMENT movement = [pathFinder getSimpleMovement];
-    velocity.x += position.x < movement.target.x ? PLAYER_MOVE_SPEED : -PLAYER_MOVE_SPEED;
+    COMMAND command = [pathFinder getCommand];
+    velocity.x += position.x < command.targetPosition.x ? PLAYER_MOVE_SPEED : -PLAYER_MOVE_SPEED;
 }
 
 - (void) addGravity {

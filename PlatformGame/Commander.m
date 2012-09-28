@@ -46,32 +46,11 @@
     commandCount = 0;
 }
 
-+ (COMMAND) commandOfType:(int)type {
-    COMMAND command;
-    command.type = type;
-    return command;
-}
-
-+ (COMMAND) commandOfType:(int)type targetPosition:(GLKVector2)target {
-    COMMAND command;
-    command.type = type;
-    command.targetPosition = target;
-    return command;
-}
-
-+ (COMMAND) commandOfType:(int)type targetPosition:(GLKVector2)target angle:(float)angle {
-    COMMAND command;
-    command.type = type;
-    command.targetPosition = target;
-    command.angle = angle;
-    return command;
-}
-
 - (COMMAND) getCommand {
     if (commands != nil && commandCount > 0) {
         return commands[0];
     } else {
-        return [Commander commandOfType:COMMAND_NONE];
+        return commandWithType(COMMAND_NONE);
     }
 }
 

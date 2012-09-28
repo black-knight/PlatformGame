@@ -23,26 +23,25 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import <GLKit/GLKit.h>
 #import "Command.h"
 
-@interface PathFinder : NSObject {
-
-@private
-    
-	GLKVector2 source;
-	GLKVector2 target;
-    
-    int *pathMap;
-    int pathMapWidth;
-    int pathMapHeight;
+COMMAND commandWithType(int type) {
+    COMMAND command;
+    command.type = type;
+    return command;
 }
 
-- (void) setSourcePosition:(GLKVector2)p;
-- (void) setTargetPosition:(GLKVector2)p;
+COMMAND commandWithPosition(int type, GLKVector2 position) {
+    COMMAND command;
+    command.type = type;
+    command.targetPosition = position;
+    return command;
+}
 
-- (void) calculatePath;
-
-- (COMMAND) getCommand;
-
-@end
+COMMAND commandWithRotation(int type, GLKVector2 position, float rotation) {
+    COMMAND command;
+    command.type = type;
+    command.targetPosition = position;
+    command.targetRotation = rotation;
+    return command;
+}

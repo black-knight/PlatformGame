@@ -32,6 +32,9 @@ TILE TILE_EMPTY = {.type = 31};
 
 @implementation TilesLayer
 
+@synthesize mapWidth;
+@synthesize mapHeight;
+
 - (id) init {
     if (self = [super init]) {
         [self initialize];
@@ -46,6 +49,8 @@ TILE TILE_EMPTY = {.type = 31};
 - (void) initialize {
     NSLog(@"Initializing tiles layer");
     position = GLKVector2Make(0.0f, 0.0f);
+    mapWidth = MAP_WIDTH;
+    mapHeight = MAP_HEIGHT;
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
             tiles[i][j] = TILE_EMPTY;

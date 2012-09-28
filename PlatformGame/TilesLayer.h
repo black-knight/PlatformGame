@@ -52,6 +52,9 @@ extern TILE TILE_EMPTY;
 	TILE tiles[MAP_HEIGHT][MAP_WIDTH];
 	Quads *tileQuads;
     
+    int mapWidth;
+    int mapHeight;
+    
     Texture *tilesTexture;
     
     GLKVector2 position;
@@ -61,5 +64,8 @@ extern TILE TILE_EMPTY;
 
 - (bool) collisionAt:(GLKVector2)p;
 - (float) angleAt:(GLKVector2)p;
+
+@property (readonly) int mapWidth;
+@property (readonly) int mapHeight;
 
 @end

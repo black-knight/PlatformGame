@@ -24,16 +24,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <GLKit/GLKit.h>
-
-#define COMMAND_NONE 0
-#define COMMAND_GOTO_POSITION 1
-#define COMMAND_WAIT_FOR_ANGLE 2
-
-typedef struct {
-    int type;
-    GLKVector2 targetPosition;
-    float angle;
-} COMMAND;
+#import "Command.h"
 
 @interface Commander : NSObject {
 
@@ -44,10 +35,6 @@ typedef struct {
 }
 
 - (void) reset;
-
-+ (COMMAND) commandOfType:(int)type;
-+ (COMMAND) commandOfType:(int)type targetPosition:(GLKVector2)target;
-+ (COMMAND) commandOfType:(int)type targetPosition:(GLKVector2)target angle:(float)angle;
 
 - (COMMAND) getCommand;
 - (void) popCommand;

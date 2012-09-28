@@ -23,26 +23,23 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef PlatformGame_Command_h
+#define PlatformGame_Command_h
+
 #import <GLKit/GLKit.h>
-#import "Command.h"
 
-@interface PathFinder : NSObject {
+#define COMMAND_NONE 0
+#define COMMAND_GOTO_POSITION 1
+#define COMMAND_WAIT_FOR_ANGLE 2
 
-@private
-    
-	GLKVector2 source;
-	GLKVector2 target;
-    
-    int *pathMap;
-    int pathMapWidth;
-    int pathMapHeight;
-}
+typedef struct {
+    int type;
+    GLKVector2 targetPosition;
+    float targetRotation;
+} COMMAND;
 
-- (void) setSourcePosition:(GLKVector2)p;
-- (void) setTargetPosition:(GLKVector2)p;
+extern COMMAND commandWithType(int type);
+extern COMMAND commandWithPosition(int type, GLKVector2 position);
+extern COMMAND commandWithRotation(int type, GLKVector2 position, float rotation);
 
-- (void) calculatePath;
-
-- (COMMAND) getCommand;
-
-@end
+#endif

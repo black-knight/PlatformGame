@@ -24,8 +24,30 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import "PathFinder.h"
+#import "StageInfo.h"
 
 @implementation PathFinder
+
+- (id) init {
+    if (self = [super init]) {
+        pathMap = NULL;
+        pathMapWidth = -1;
+        pathMapHeight = -1;
+    }
+    return self;
+}
+
+- (void) initializePathMap {
+    if (stageInfo.tilesLayer.mapWidth == pathMapWidth && stageInfo.tilesLayer.mapHeight == pathMapHeight) {
+        return;
+    }
+    if (pathMap != NULL) {
+        free(pathMap);
+    }
+    pathMapWidth = stageInfo.tilesLayer.mapWidth;
+    pathMapHeight = stageInfo.tilesLayer.mapHeight;
+    pathMap = (int *) malloc(pathMapWidth * pathMapHeight * sizeof(int));
+}
 
 - (void) setSourcePosition:(GLKVector2)p {
     source = p;
@@ -35,8 +57,12 @@
     target = p;
 }
 
-- (SIMPLE_MOVEMENT) getSimpleMovement {
-    SIMPLE_MOVEMENT m = {.type = SIMPLE_MOVEMENT_GOTO, .target = target};
+- (void) calculatePath {
+    [self initializePathMap];
+}
+
+- (COMMAND) getCommand {
+    COMMAND m = {.type = COMMAND_GOTO_POSITION, .targetPosition = target};
     return m;
 }
 

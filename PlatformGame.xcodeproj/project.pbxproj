@@ -38,6 +38,7 @@
 		65C00E541607A6A500E293B3 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C00E531607A6A500E293B3 /* Globals.m */; };
 		65FBA92F16145C1C00BAEFCD /* Commander.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FBA92E16145C1C00BAEFCD /* Commander.m */; };
 		65FBA9321614650B00BAEFCD /* PathFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FBA9311614650B00BAEFCD /* PathFinder.m */; };
+		65FDB129161634AC00CC11CA /* Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 65FDB128161634AC00CC11CA /* Command.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,8 @@
 		65FBA92E16145C1C00BAEFCD /* Commander.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Commander.m; sourceTree = "<group>"; };
 		65FBA9301614650B00BAEFCD /* PathFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathFinder.h; sourceTree = "<group>"; };
 		65FBA9311614650B00BAEFCD /* PathFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathFinder.m; sourceTree = "<group>"; };
+		65FDB127161633A800CC11CA /* Command.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
+		65FDB128161634AC00CC11CA /* Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Command.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +201,8 @@
 				6538687D160B2E6600C88E94 /* Physics.m */,
 				65FBA92D16145C1C00BAEFCD /* Commander.h */,
 				65FBA92E16145C1C00BAEFCD /* Commander.m */,
+				65FDB127161633A800CC11CA /* Command.h */,
+				65FDB128161634AC00CC11CA /* Command.m */,
 				65FBA9301614650B00BAEFCD /* PathFinder.h */,
 				65FBA9311614650B00BAEFCD /* PathFinder.m */,
 			);
@@ -328,6 +333,7 @@
 				6538687E160B2E6600C88E94 /* Physics.m in Sources */,
 				65FBA92F16145C1C00BAEFCD /* Commander.m in Sources */,
 				65FBA9321614650B00BAEFCD /* PathFinder.m in Sources */,
+				65FDB129161634AC00CC11CA /* Command.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
